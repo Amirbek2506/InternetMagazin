@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.2",
-    "signature": "475027d5b8c9803c3b0e1a56059313f2e66235ea"
+    "signature": "4151926c4e202e95bf5f324fe883620ccd87fccf"
   },
   "compilationOptions": {
     "defines": [
@@ -28,6 +28,7 @@
           "Microsoft.AspNetCore.Razor.Design": "2.2.0",
           "Microsoft.EntityFrameworkCore": "2.2.2",
           "Microsoft.EntityFrameworkCore.Design": "2.2.2",
+          "Microsoft.EntityFrameworkCore.SqlServer": "2.2.2",
           "Microsoft.NETCore.App": "2.2.0"
         },
         "runtime": {
@@ -99,6 +100,21 @@
         },
         "compile": {
           "lib/netstandard2.0/Microsoft.EntityFrameworkCore.Relational.dll": {}
+        }
+      },
+      "Microsoft.EntityFrameworkCore.SqlServer/2.2.2": {
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore.Relational": "2.2.2",
+          "System.Data.SqlClient": "4.6.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.EntityFrameworkCore.SqlServer.dll": {
+            "assemblyVersion": "2.2.2.0",
+            "fileVersion": "2.2.2.19024"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.EntityFrameworkCore.SqlServer.dll": {}
         }
       },
       "Remotion.Linq/2.2.0": {
@@ -302,7 +318,7 @@
           "Microsoft.EntityFrameworkCore.Design": "2.2.2",
           "Microsoft.EntityFrameworkCore.InMemory": "2.2.0",
           "Microsoft.EntityFrameworkCore.Relational": "2.2.2",
-          "Microsoft.EntityFrameworkCore.SqlServer": "2.2.0",
+          "Microsoft.EntityFrameworkCore.SqlServer": "2.2.2",
           "Microsoft.EntityFrameworkCore.Tools": "2.2.0",
           "Microsoft.Extensions.Caching.Abstractions": "2.2.0",
           "Microsoft.Extensions.Caching.Memory": "2.2.0",
@@ -1491,16 +1507,6 @@
         },
         "compile": {
           "lib/netstandard2.0/Microsoft.EntityFrameworkCore.InMemory.dll": {}
-        },
-        "compileOnly": true
-      },
-      "Microsoft.EntityFrameworkCore.SqlServer/2.2.0": {
-        "dependencies": {
-          "Microsoft.EntityFrameworkCore.Relational": "2.2.2",
-          "System.Data.SqlClient": "4.6.0"
-        },
-        "compile": {
-          "lib/netstandard2.0/Microsoft.EntityFrameworkCore.SqlServer.dll": {}
         },
         "compileOnly": true
       },
@@ -3299,6 +3305,13 @@
       "path": "microsoft.entityframeworkcore.relational/2.2.2",
       "hashPath": "microsoft.entityframeworkcore.relational.2.2.2.nupkg.sha512"
     },
+    "Microsoft.EntityFrameworkCore.SqlServer/2.2.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-xC9tZvGArwC2cZ2g+Fl80lX8lmo4sC8IR5OH4cH0TuqUsCzIp12srIx3ldAh+kRj+vD4JhqU+zsfaCxDfoeFYA==",
+      "path": "microsoft.entityframeworkcore.sqlserver/2.2.2",
+      "hashPath": "microsoft.entityframeworkcore.sqlserver.2.2.2.nupkg.sha512"
+    },
     "Remotion.Linq/2.2.0": {
       "type": "package",
       "serviceable": true,
@@ -4047,13 +4060,6 @@
       "sha512": "sha512-WxvRXUwCGdY1Ze8GfZteWadsxrxpFRfZN8WJ1jcXZKp5eYo5WwmiBq5e3xIZR8cHxznqlqczJ3NpXjqyYpNK9w==",
       "path": "microsoft.entityframeworkcore.inmemory/2.2.0",
       "hashPath": "microsoft.entityframeworkcore.inmemory.2.2.0.nupkg.sha512"
-    },
-    "Microsoft.EntityFrameworkCore.SqlServer/2.2.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-rCGBF6Hab9633Dh2xtiAcJnDxf2CjaBrGyoagoCoYHH5Ftbdw5zX/e9ABgif5ngzh7DsrBcgxK/3gHBZ2n+TGA==",
-      "path": "microsoft.entityframeworkcore.sqlserver/2.2.0",
-      "hashPath": "microsoft.entityframeworkcore.sqlserver.2.2.0.nupkg.sha512"
     },
     "Microsoft.EntityFrameworkCore.Tools/2.2.0": {
       "type": "package",

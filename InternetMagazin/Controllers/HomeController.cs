@@ -5,14 +5,21 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using InternetMagazin.Models;
+using InternetMagazin.Db;
 
 namespace InternetMagazin.Controllers
 {
     public class HomeController : Controller
     {
+        DataContext _context;
+        public HomeController(DataContext context)
+        {
+            _context = context;
+        }
+
         public IActionResult Index()
         {
-            return View("Index");
+            return View();
         }
 
         public IActionResult Privacy()
