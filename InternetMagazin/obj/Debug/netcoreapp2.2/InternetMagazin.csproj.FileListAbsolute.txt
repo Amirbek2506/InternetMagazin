@@ -15,7 +15,6 @@ D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\InternetMaga
 D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\InternetMagazin.TagHelpers.output.cache
 D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\InternetMagazin.RazorCoreGenerate.cache
 D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\Home\Index.g.cshtml.cs
-D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\Home\Privacy.g.cshtml.cs
 D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Error.g.cshtml.cs
 D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_CookieConsentPartial.g.cshtml.cs
 D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_Layout.g.cshtml.cs

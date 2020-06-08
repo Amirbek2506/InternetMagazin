@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\projects\\InternetMagazin — копия\\InternetMagazin\\InternetMagazin.csproj": {}
+    "D:\\projects\\InternetMagazin\\InternetMagazin\\InternetMagazin.csproj": {}
   },
   "projects": {
-    "D:\\projects\\InternetMagazin — копия\\InternetMagazin\\InternetMagazin.csproj": {
+    "D:\\projects\\InternetMagazin\\InternetMagazin\\InternetMagazin.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\projects\\InternetMagazin — копия\\InternetMagazin\\InternetMagazin.csproj",
+        "projectUniqueName": "D:\\projects\\InternetMagazin\\InternetMagazin\\InternetMagazin.csproj",
         "projectName": "InternetMagazin",
-        "projectPath": "D:\\projects\\InternetMagazin — копия\\InternetMagazin\\InternetMagazin.csproj",
+        "projectPath": "D:\\projects\\InternetMagazin\\InternetMagazin\\InternetMagazin.csproj",
         "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
-        "outputPath": "D:\\projects\\InternetMagazin — копия\\InternetMagazin\\obj\\",
+        "outputPath": "D:\\projects\\InternetMagazin\\InternetMagazin\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\ProgramData\\Xamarin\\NuGet\\",
@@ -71,6 +71,10 @@
               "target": "Package",
               "version": "[2.2.0, )",
               "autoReferenced": true
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[2.2.4, )"
             }
           },
           "imports": [
