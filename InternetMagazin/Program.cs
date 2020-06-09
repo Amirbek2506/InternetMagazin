@@ -17,8 +17,7 @@ namespace InternetMagazin
     {
         public static void Main(string[] args)
         {
-            var host = CreateWebHostBuilder(args).Build();
-
+            var host = BuildWebHost(args) ;
             using (var scope = host.Services.CreateScope())
             { var services = scope.ServiceProvider;
                 try
@@ -34,9 +33,10 @@ namespace InternetMagazin
             }
             host.Run();
         }
-
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+        public static IWebHost BuildWebHost(string[] args) =>
+        WebHost.CreateDefaultBuilder(args)
+            .UseStartup<Startup>()
+            .UseWebRoot("wwwroot")
+            .Build();
     }
 }

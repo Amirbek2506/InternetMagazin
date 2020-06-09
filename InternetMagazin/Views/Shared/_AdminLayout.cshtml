@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Панель управления</title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <!-- Icon Font CSS -->
+    <link rel="stylesheet" href="~/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" href="~/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/css/themify-icons.css">
+    <link rel="stylesheet" href="~/css/cryptocurrency-icons.css">
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" href="~/css/plugins.css">
+    <!-- Helper CSS -->
+    <link rel="stylesheet" href="~/css/helper.css">
+
+    <!-- Main Style CSS -->
+    <link rel="stylesheet" href="~/css/style.css">
+
+    <!-- Custom Style CSS Only For Demo Purpose -->
+    <link id="cus-style" rel="stylesheet" href="~/css/style-primary.css">
+    <link id="cus-style" rel="stylesheet" href="~/css/custom.css">
+    <link id="cus-style" rel="stylesheet" href="~/css/myStyle.css">
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- Header Section Start -->
+        <div class="header-section">
+            <div class="container-fluid">
+                <div class="row justify-content-between align-items-center">
+
+                    <!-- Header Logo (Header Left) Start -->
+                    <a class="navbar-brand">
+                        <img src="~/assets/images/logo_dark.png" alt="">
+                    </a>
+                    <!-- Header Logo (Header Left) End -->
+                    <!-- Header Right Start -->
+                    <div class="header-right flex-grow-1 col-auto">
+                        <div class="row justify-content-between align-items-center">
+
+                            <!-- Side Header Toggle Start -->
+                            <div class="col-auto">
+                                <div class="row align-items-center">
+
+                                    <!--Side Header Toggle-->
+                                    <div class="col-auto"><button class="side-header-toggle"><i class="zmdi zmdi-menu"></i></button></div>
+                                </div>
+                            </div>
+                            <!-- Side Header Toggle & Search End -->
+                            <!-- Header Notifications Area Start -->
+                            <div class="col-auto">
+                                <ul class="header-notification-area">
+                                    <!--User-->
+                                    <li class="adomx-dropdown col-auto">
+                                        <a class="toggle" href="#">
+                                            <span class="user">
+                                                <span class="avatar">
+
+                                                    @*if(ddd)*@
+                                                    <img src="/public/uploads/users---" alt="">
+                                                    <img src="/public/images/default-avatar.jpg" alt="">
+                                                    <span class="status"></span>
+                                                </span>
+                                                <span class="name">{!! $userInfo->name !!}</span>
+                                            </span>
+                                        </a>
+                                    <li><a href="{{ url('/logout') }}"><i class="zmdi zmdi-lock-open"></i>Выход</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="side-header show">
+            <button class="side-header-close"><i class="zmdi zmdi-close"></i></button>
+            <!-- Side Header Inner Start -->
+            <div class="side-header-inner custom-scroll">
+                <nav class="side-header-menu" id="side-header-menu">
+                    <ul>
+                        <li>
+                            <a href=""><i class="ti-home"></i> <span>Главная</span></a>
+                        </li>
+                        <li><a href="~/Admin/Index_product"><i class="fa fa-users" aria-hidden="true"></i> <span>Пользователи</span></a></li>
+
+                        <li class="has-sub-menu">
+                            <a data-id="0" href="#">
+                                <span> <i class="ti-package"></i> <span>Каталог</span></span>
+                            </a>
+                            @{
+                                List<CategoryViewModel> GetCategories = ViewBag.GetCategories;
+                            }
+                            @if (GetCategories.Count > 0)
+                            {
+                                <ul class="side-header-sub-menu">
+                                    @foreach (CategoryViewModel Category in GetCategories)
+                                    {
+                                        if (Category.ParentId == 0)
+                                        {
+                                            <li id="cat_side_bar_{@Category.Id}" class="has-sub-menu">
+                                                <a catLevel="1" data-id="@Category.Id" href="#"><span>@Category.Title</span></a>
+                                                <ul class="side-header-sub-menu">
+                                                    @foreach (CategoryViewModel Categ in GetCategories)
+                                                    {
+                                                        if (Categ.ParentId == Category.Id)
+                                                        {
+                                                            <li id="cat_side_bar_{@Categ.Id}">
+                                                                <a asp-area="" asp-controller="Admin" asp-action="Index_product" asp-route-id="@Categ.Id">@Categ.Title</a>
+                                                            </li>
+                                                        }
+                                                    }
+                                                </ul>
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+                            }
+                        </li>
+                        <li><a src('/admin/orders')"><i class="zmdi zmdi-shopping-basket zmdi-hc-fw"></i> <span>Заказы</span></a></li>
+                        <li><a href="{{ url('/admin/delivery') }}"><i class="zmdi zmdi-truck zmdi-hc-fw"></i> <span>Доставка</span></a></li>
+                        <li><a href="{{ url('/admin/slideshow') }}"><i class="zmdi zmdi-collection-image zmdi-hc-fw"></i> <span>Слайдшоу</span></a></li>
+                        <li><a href="{{ url('/admin/home-cats') }}"><i class="zmdi zmdi-dns zmdi-hc-fw"></i> <span>Категории на главной</span></a></li>
+                        <li><a href="{{ url('/admin/site-settings') }}"><i class="zmdi zmdi-settings"></i> <span>Конфигурации</span></a></li>
+                        <li><a href="{{ url('/logout') }}"><i class="ti-unlock"></i> <span>Выход</span></a></li>
+                    </ul>
+                </nav>
+            </div><!-- Side Header Inner End -->
+        </div><!-- Side Header End -->
+        <div class="content-body">
+            @RenderBody();
+        </div>
+    </div>
+    <div class="modal fade" id="edit_user_modal">
+        <div class="modal-dialog modal-lg">
+            <div id="edit_user_modal_body" class="modal-content">
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Global Vendor, plugins & Activation JS -->
+    <script src="~/js/modernizr-3.6.0.min.js"></script>
+    <script src="~/js/jquery-3.3.1.min.js"></script>
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <!--Plugins JS-->
+    <script src="~/js/perfect-scrollbar.min.js"></script>
+    <script src="~/js/tippy4.min.js.js"></script>
+    <!--Main JS-->
+    <script src="~/js/main.js"></script>
+    <script src="~/js/jquery.growl.js"></script>
+    <script src="~/js/jquery.slimscroll.min.js"></script>
+    <script src="~/js/jquery.app.js"></script>
+    <script src="~/js/summernote-bs4.min.js"></script>
+    <script src="~/js/toastr.min.js"></script>
+    <script src="~/js/custom.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

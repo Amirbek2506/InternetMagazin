@@ -1,0 +1,13 @@
+.side-header {
+    width: 300px !important;
+    /* background-color: #161824; */
+    background-color: #fafafa;
+    height: calc(100vh - 80px);
+    position: fixed;
+    left: 0;
+    top: 58px;
+}
+.content-body {
+    padding: 30px;
+    margin-top: 58px;
+}

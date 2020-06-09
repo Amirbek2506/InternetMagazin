@@ -22,14 +22,16 @@ namespace InternetMagazin.Controllers
         {
             _context = context;
         }
-
+        [HttpGet]
         public IActionResult Index()
         {
+            UserViewModel User= GetUserModel();
             ViewBag.Category = _context.Categories.ToList<CategoryViewModel>();
-            ViewBag.UserModel = GetUserModel();
+            ViewBag.UserModel = User;
+            if (User.RollesId == 1)
+                return Redirect("~/Admin/Index");
             return View();
         }
-
         public IActionResult LoginUser(UserViewModel user)
         {
             string token = null;
@@ -62,16 +64,7 @@ namespace InternetMagazin.Controllers
             return RedirectToAction("Index");
         }
 
-        public JsonResult EndSession()
-        {
-            HttpContext.Session.Clear();
-            return Json(new { result = "success" });
-        }
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+
         private IEnumerable<Claim> GetUserClaims(UserViewModel user)
         {
             List<Claim> claims = new List<Claim>();
@@ -99,7 +92,7 @@ namespace InternetMagazin.Controllers
             claims.Add(_claim);
             return claims.AsEnumerable<Claim>();
         }
-        private UserViewModel GetUserModel()
+        public UserViewModel GetUserModel()
         {
             var objLoggedInUser = new UserViewModel();
             if (User.Identity.IsAuthenticated)
@@ -144,6 +137,7 @@ namespace InternetMagazin.Controllers
                                 break;
                         }
                     }
+
                 }
             }
             return objLoggedInUser;
