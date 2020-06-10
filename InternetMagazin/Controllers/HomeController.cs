@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Http;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using System.IO;
 
 namespace InternetMagazin.Controllers
 {

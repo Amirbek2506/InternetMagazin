@@ -296,83 +296,116 @@ $(document).on('click', '#ad_product_btn', function () {
 $('#add_product_modal').modal('show');
 });
 
-var imageProduct = [];
-$(document).on('click', '#upload_temp_btn', function (e) {
-e.preventDefault();
-    let file = $('#image_to_temp').prop('files')[0];
-    let f = new FormData();
-    f.append('file', file);
-    ajaxReq('/admin/product/image-to-temp', 'POST',(data)=>{
-        $('#images_product').append('<div class="col-3 mb-15">\n' +
-            '                                                <img src="/public/temp/'+data+'" alt="">\n' +
-            '                                            </div>');
-        imageProduct.push(data);
-    }, f)
-});
-$(document).on('click', '#upload_edit_temp_btn', function (e) {
-e.preventDefault();
-    let file = $('#image_to_edit_temp').prop('files')[0];
-    let f = new FormData();
-    f.append('file', file);
-    ajaxReq('/admin/product/image-to-temp', 'POST',(data)=>{
-        $('#images_product_edit').append('<div class="col-3 mb-15">\n' +
-            '                                                <img src="/public/temp/'+data+'" alt="">\n' +
-            '                                            </div>');
-        imageProduct.push(data);
-    }, f)
-});
 
-$(document).on('click', '#save_product', function () {
-    let id = $(this).attr('data-id');
-let title = $('#title_new').val();
-let slug = $('#slug_new').val();
-let articul = $('#articul_new').val();
-let price = $('#price_new').val();
-let phote = $('#photo_new').prop('files')[0];
-let price_discount = $('#price_discount_new').val();
-let quantity = $('#quantity_new').val();
-let descr = $('#descr_new').summernote('code');
-let instruction = $('#instruction_new').summernote('code');
+/*
+    $(document).on('click', '#upload_temp_btn', function ('#image_to_temp') {
+        var input = document.getElementById(inputId);
+        var files = input.files;
+        var formData = new FormData();
 
-let is_sale = ($('#is_sale_new').prop('checked')== true)? '1':'0';
-let is_new = ($('#is_new_new').prop('checked')== true)? '1':'0';
-let is_hot = ($('#is_hot_new').prop('checked')== true)? '1':'0';
-price_discount = (is_sale == 0)? 0.00: price_discount;
+        for (var i = 0; i != files.length; i++) {
+            formData.append("files", files[i]);
+        }
 
-let data = new FormData();
-data.append('id', id);
-data.append('title', title);
-data.append('slug', slug);
-data.append('articul', articul);
-data.append('price', price);
-data.append('phote', phote);
-data.append('price_discount', price_discount);
-data.append('quantity', quantity);
-data.append('descr', descr);
-data.append('instruction', instruction);
-data.append('imageProduct', imageProduct.toString());
-data.append('is_sale', is_sale);
-data.append('is_new', is_new);
-data.append('is_hot', is_hot);
-data.append('recomendProducts', recomendProducts.toString());
+        $.ajax(
+            {
+                url: "/uploader",
+                data: formData,
+                processData: false,
+                contentType: false,
+                type: "POST",
+                success: function (data) {
+                    alert("Files Uploaded!");
+                }
+            }
+        );
+    }
+    */
 
-ajaxReq('/admin/product/create', 'POST', (data)=>{
-    //console.log(data);
-    $('#table-adm').append(data.res);
-    $('#add_product_modal').modal('hide');
-    $('#title_new').val('');
-    $('#slug_new').val('');
-    $('#articul_new').val('');
-    $('#price_new').val('');
-    $('#photo_new').val('');
-    $('#price_discount_new').val('');
-    $('#quantity_new').val('');
-    $('#descr_new').val('');
-    $('#instruction_new').val('');
-    imageProduct = [];
+    var imageProduct = [];
+    $(document).on('click', '#upload_temp_btn', function (e) {
+        e.preventDefault();
+        let file = $('#image_to_temp').prop('files')[0];
+        let formdata = new FormData();
+        formdata.append('file', file);
+        $.ajaxSetup({
+            headers: {}
+        });
+        $.ajax({
+            url: "/Admin/AddImageProduct",
+            data: formdata,
+            type: "POST",
+            contentType: false,
+            cache: false,
+            processData: false,
+            //dataType: 'json',
+            success: function (data) {
+                $('#images_product').append('<div class="col-3 mb-15">\n' +
+                    '                                                <img src="/uploads/products/'+data+'" alt="">\n' +
+                    '                                            </div>');
+                imageProduct.push(data);
+            },
+            error: function (data) {
+                console.log(data);
+                }
+        });
+    });
 
-}, data)
-});
+
+
+
+    $(document).on('click', '#save_product', function () {
+        let id = $(this).attr('data-id');
+        let title = $('#title_new').val();
+        let articul = $('#articul_new').val();
+        let price = $('#price_new').val();
+        let phote = $('#photo_new').prop('files')[0];
+        let price_discount = $('#price_discount_new').val();
+        let quantity = $('#quantity_new').val();
+        let descr = $('#descr_new').summernote('code');
+
+        let is_sale = ($('#is_sale_new').prop('checked') == true) ? '1' : '0';
+        let is_new = ($('#is_new_new').prop('checked') == true) ? '1' : '0';
+        price_discount = (is_sale == '0') ? 0.00 : price_discount;
+
+        let data = new FormData();
+        data.append('id', id);
+        data.append('title', title);
+        data.append('articul', articul);
+        data.append('price', price);
+        data.append('phote', phote);
+        data.append('price_discount', price_discount);
+        data.append('quantity', quantity);
+        data.append('descr', descr);
+        data.append('imageProduct', imageProduct.toString());
+        data.append('is_sale', is_sale);
+        data.append('is_new', is_new);
+
+        $.ajax({
+            url: "/Admin/Create_product",
+            data: data,
+            type: "POST",
+            contentType:false,
+            cache: false,
+            processData: false,
+            //dataType: 'json',
+            success: function (data) {
+                $('#table-adm').append(data.res);
+                $('#add_product_modal').modal('hide');
+                $('#title_new').val('');
+                $('#articul_new').val('');
+                $('#price_new').val('');
+                $('#photo_new').val('');
+                $('#price_discount_new').val('');
+                $('#quantity_new').val('');
+                $('#descr_new').val('');
+                imageProduct = [];
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    });
 
 
 $(document).on('click', '#delete_product', function (e) {
