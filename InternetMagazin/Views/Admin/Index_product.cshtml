@@ -43,10 +43,15 @@
                             {
                                 <tr class="text-center" style="vertical-align: middle" id="table_item_adm_@product.Id">
                                     <th width="15%" style="vertical-align: middle">
-                                        @if (product.Image != null)
-                                        {
+            @{
+                List<Product_GaleryViewModel> product_Galeries = ViewBag.GetImagesProducts;
+                int count = product_Galeries.Where(p => p.ProductsId == product.Id).Count();
+            }
+                                  @if (count>0)
+                                  { 
+                                         string image= product_Galeries.Where(p => p.ProductsId == product.Id).First().Image;
                                             <div class="image-cat">
-                                                <img src="/public/uploads/products/@product.Id@product.Image" alt="">
+                                                <img src="/uploads/products/@product.Id/@image" alt="">
                                             </div>
                                         }
                                         else
@@ -54,7 +59,7 @@
                                             <div>Нет фото</div>
                                         }
                                     </th>
-                                    <td width="20%" class="text-center" style="vertical-align: middle"> <strong>{!! mb_substr($item->title, 0, 15) !!}</strong></td>
+                                    <td width="20%" class="text-center" style="vertical-align: middle"> <strong>@product.Title</strong></td>
                                     <td class="text-center" style="vertical-align: middle">@product.Articul</td>
                                     <td class="text-center" style="vertical-align: middle">@product.Price</td>
                                     <td class="text-center" style="vertical-align: middle">@product.Price_Discount</td>
@@ -106,20 +111,16 @@
 
                                     <div class="col-12 mb-10">
                                         <label for="formLayoutUsername3">Заголовок *</label>
-                                        <input type="text" id="title_new" class="form-control form-control-sm" placeholder="">
+                                        <input required type="text" id="title_new" class="form-control form-control-sm" placeholder="">
                                     </div>
 
                                     <div class="col-12 mb-10">
                                         <label for="formLayoutPassword3">Артикул *</label>
-                                        <input type="text" id="articul_new" class="form-control form-control-sm" placeholder="">
-                                    </div>
-                                    <div class="col-12 mb-10">
-                                        <label for="formLayoutPassword3">Фото <span> (размер изображение должет быть  900х1352 пикс. )</span></label>
-                                        <input type="file" id="photo_new" class="form-control form-control-sm" placeholder="">
+                                        <input required type="text" id="articul_new" class="form-control form-control-sm" placeholder="">
                                     </div>
                                     <div class="col-12 mb-10">
                                         <label for="formLayoutPassword3">Цена</label>
-                                        <input type="text" id="price_new" class="form-control form-control-sm" placeholder="">
+                                        <input required type="text" id="price_new" class="form-control form-control-sm" placeholder="">
                                     </div>
                                     <div class="col-12 mb-10">
                                         <label for="formLayoutPassword3">Цена со скидкой</label>
@@ -130,7 +131,7 @@
                                     </div>
                                     <div class="col-12 mb-10">
                                         <label for="formLayoutPassword3">Количество на складе</label>
-                                        <input type="text" id="quantity_new" class="form-control form-control-sm" placeholder="">
+                                        <input required type="text" id="quontity_new" class="form-control form-control-sm" placeholder="">
                                     </div>
                                     <div class="col-12 mb-10">
                                         <label class="adomx-checkbox"><input id="is_new_new" type="checkbox"> <i class="icon"></i>Новинка</label>
@@ -145,7 +146,7 @@
                                 <div class="row mbn-20">
                                     <div class="col-12 mb-20">
                                         <label for="formLayoutMessage1">Описание (не обязательно)</label>
-                                        <textarea id="descr_new" class="summernote-description form-control form-control-sm"></textarea>
+                                        <textarea id="description_new" class="form-control"></textarea>
                                     </div>
                                 </div>
                             </form>
@@ -184,23 +185,6 @@
         </div>
     </div>
 </div>
-<script>
-    (function ($) {
-        "use strict";
-        /*Summernote*/
-        if ($('.summernote-description').length) {
-            $('.summernote-description').summernote({
-                height: 250,
-            });
-        }/*Summernote*/
-        if ($('.summernote-instruction').length) {
-            $('.summernote-instruction').summernote({
-                height: 250,
-            });
-        }
-
-    })(jQuery);
-</script>
 
 <script src="~/js/bootstrap-select.js"></script>
 <script src="~/js/bootstrapSelect.active.js"></script>

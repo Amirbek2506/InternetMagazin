@@ -326,8 +326,10 @@ $('#add_product_modal').modal('show');
     $(document).on('click', '#upload_temp_btn', function (e) {
         e.preventDefault();
         let file = $('#image_to_temp').prop('files')[0];
+        let folderName = "temp";
         let formdata = new FormData();
         formdata.append('file', file);
+        formdata.append('folderName', folderName);
         $.ajaxSetup({
             headers: {}
         });
@@ -341,7 +343,7 @@ $('#add_product_modal').modal('show');
             //dataType: 'json',
             success: function (data) {
                 $('#images_product').append('<div class="col-3 mb-15">\n' +
-                    '                                                <img src="/uploads/products/'+data+'" alt="">\n' +
+                    '                                                <img src="/uploads/temp/'+data+'" alt="">\n' +
                     '                                            </div>');
                 imageProduct.push(data);
             },
@@ -355,28 +357,26 @@ $('#add_product_modal').modal('show');
 
 
     $(document).on('click', '#save_product', function () {
-        let id = $(this).attr('data-id');
+        let categoryId = $(this).attr('data-id');
         let title = $('#title_new').val();
         let articul = $('#articul_new').val();
         let price = $('#price_new').val();
-        let phote = $('#photo_new').prop('files')[0];
         let price_discount = $('#price_discount_new').val();
-        let quantity = $('#quantity_new').val();
-        let descr = $('#descr_new').summernote('code');
+        let quontity = $('#quontity_new').val();
+        let description = $('#description_new').summernote('code');
 
         let is_sale = ($('#is_sale_new').prop('checked') == true) ? '1' : '0';
         let is_new = ($('#is_new_new').prop('checked') == true) ? '1' : '0';
         price_discount = (is_sale == '0') ? 0.00 : price_discount;
 
         let data = new FormData();
-        data.append('id', id);
+        data.append('categoryId', categoryId);
         data.append('title', title);
         data.append('articul', articul);
         data.append('price', price);
-        data.append('phote', phote);
         data.append('price_discount', price_discount);
-        data.append('quantity', quantity);
-        data.append('descr', descr);
+        data.append('quontity', quontity);
+        data.append('description', description);
         data.append('imageProduct', imageProduct.toString());
         data.append('is_sale', is_sale);
         data.append('is_new', is_new);
@@ -390,6 +390,7 @@ $('#add_product_modal').modal('show');
             processData: false,
             //dataType: 'json',
             success: function (data) {
+                alert(data);
                 $('#table-adm').append(data.res);
                 $('#add_product_modal').modal('hide');
                 $('#title_new').val('');
@@ -397,8 +398,11 @@ $('#add_product_modal').modal('show');
                 $('#price_new').val('');
                 $('#photo_new').val('');
                 $('#price_discount_new').val('');
-                $('#quantity_new').val('');
-                $('#descr_new').val('');
+                $('#quontity_new').val('');
+                $('#description_new').summernote.empty();
+                $('#is_sale_new').prop('checked', false);
+                $('#is_new_new').prop('checked', false);
+                $('#images_product').html('');
                 imageProduct = [];
             },
             error: function (data) {
@@ -411,7 +415,8 @@ $('#add_product_modal').modal('show');
 $(document).on('click', '#delete_product', function (e) {
 e.preventDefault();
 let id = $(this).attr('data-id');
-ajaxReq('/admin/product/remove/'+id, 'GET', (data)=>{
+    ajaxReq('/Admin/Delete_product/' + id, 'GET', (data) => {
+        alert(data);
     $('#table_item_adm_'+id).remove();
 });
 });
@@ -419,7 +424,7 @@ ajaxReq('/admin/product/remove/'+id, 'GET', (data)=>{
 $(document).on('click', '#edit_product', function (e) {
 e.preventDefault();
 let id = $(this).attr('data-id');
-ajaxReq('/admin/product/edit/'+id, 'GET', (data)=>{
+    ajaxReq('/Admin/Edit_product/'+id, 'GET', (data)=>{
     $('#edit_product_modal_body').html(data);
     $('#edit_product_modal').modal('show');
 });

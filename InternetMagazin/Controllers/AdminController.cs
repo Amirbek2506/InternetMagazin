@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Hosting;
 using System.Net.Http.Headers;
+using Microsoft.EntityFrameworkCore;
+using System.Data.SqlClient;
 
 namespace InternetMagazin.Controllers
 {
@@ -23,19 +25,34 @@ namespace InternetMagazin.Controllers
         }
 
         [HttpPost]
-        public string Create_product(ProductViewModel prod)
+        public async Task<string> Create_product(ProductViewModel product,string imageProduct)
         {
-            return "dd";
+            if (product.Title != null && product.Quontity!=0 && product.Price!=0 && product.Articul!=null)
+            {
+                try
+                {
+                    _context.Products.Add(product);
+                  if(await _context.SaveChangesAsync()>0 && await SaveImages(imageProduct, product.Id))
+                    {
+                        return "Успешно добавлен!";
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    return ex.Message;
+                }
+            }
+            return "Продукт не готов для добавления!";
         }
 
 
         [HttpPost]
-        public async Task<string> AddImageProduct(IFormFile file)
+        public async Task<string> AddImageProduct(IFormFile file,string folderName)
         {
             string filename = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
                 if (filename.Contains("\\"))
                     filename = filename.Substring(filename.LastIndexOf("\\") + 1);
-                string Addresfile = this._appEnvironment.WebRootPath + "\\uploads\\products\\" + filename;
+                string Addresfile = this._appEnvironment.WebRootPath + "\\uploads\\"+folderName+"\\" + filename;
                 using (FileStream output = System.IO.File.Create(Addresfile))
                     await file.CopyToAsync(output);
 
@@ -45,51 +62,81 @@ namespace InternetMagazin.Controllers
 
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-                ViewBag.GetCategories = _context.Categories.ToList<CategoryViewModel>();
+            ViewBag.GetCategories =await _context.Categories.ToListAsync<CategoryViewModel>();
                 return View();
         }
         [HttpGet]
-        public IActionResult Index_product(int id)
+        public async Task<IActionResult> Index_product(int id=2)
         {
-                ViewBag.Category = _context.Categories.Where(p => p.Id == id).FirstOrDefault<CategoryViewModel>();
-               ViewBag.GetProducts=_context.Products.Where(p => p.CategoryId == id).ToList<ProductViewModel>();
-            ViewBag.GetCategories = _context.Categories.ToList<CategoryViewModel>();
+            ViewBag.Category = _context.Categories.Where(p => p.Id == id).FirstOrDefault<CategoryViewModel>();
+            ViewBag.GetProducts=await _context.Products.Where(p => p.CategoryId == id).ToListAsync<ProductViewModel>();
+            ViewBag.GetImagesProducts =await _context.Product_Galeries.ToListAsync<Product_GaleryViewModel>();
+            ViewBag.GetCategories = await _context.Categories.ToListAsync<CategoryViewModel>();
             return this.View();
         }
-        public IActionResult Delete(int id)
+        public async Task<string> Delete_product(int id)
         {
-            _context.Products.Remove(_context.Products.Where(p => p.Id == id).Single());
-            _context.SaveChanges();
-            return RedirectToAction("Index");
-        }
-        public IActionResult Update(int? id,ProductViewModel product)
-        {
-            if(new HomeController(_context).GetUserModel().RollesId==1)
+            try
             {
-                if (product != null)
-                {
-                    _context.Products.Remove(_context.Products.Where(p => p.Id == id).Single());
-                    _context.SaveChanges();
-                }
-                return View();
+                _context.Products.Remove(_context.Products.Where(p => p.Id == id).Single());
+                await _context.SaveChangesAsync();
+                return "Успешно удален!";
             }
-            return RedirectToAction("Index");
+            catch(SqlException ex)
+            {
+                return ex.Message;
+            }
+            
         }
 
-
-
-      
-        public IActionResult Add_product(ProductViewModel product)
+        public async Task<ProductViewModel> Edit_product(int id)
         {
-                if (product != null)
-                {
-                    _context.Products.Add(product);
-                    _context.SaveChanges();
-                }
-                return Redirect("~/Admin/Index_product");
+            return await _context.Products.Where(p => p.Id == id).FirstOrDefaultAsync<ProductViewModel>();
+            /* try
+             {
+             }
+             catch (SqlException ex)
+             {
+                // return ex.Message;
+             }*/
+
         }
 
+
+
+        // Function MoveImages and SaveImages at db 
+        public async Task<bool> SaveImages(string imagesproduct,int id)
+        {
+            try
+            {
+
+                string[] ImagesArr = imagesproduct.Split(',');
+                foreach (var Image in ImagesArr)
+                {
+                    string path = this._appEnvironment.WebRootPath + "\\uploads\\temp\\" + Image;
+                    string path2 = this._appEnvironment.WebRootPath + "\\uploads\\products\\" + id.ToString() + "\\" + Image;
+                    if (!System.IO.File.Exists(path))
+                    {
+                        using (FileStream fs = System.IO.File.Create(path)) { }
+                    }
+                    if (System.IO.File.Exists(path2))
+                        System.IO.File.Delete(path2);
+
+                    string folder = this._appEnvironment.WebRootPath + "\\uploads\\products\\" + id.ToString();
+                    if (!Directory.Exists(folder))
+                        Directory.CreateDirectory(folder);
+                    System.IO.File.Move(path, path2);
+                    _context.Product_Galeries.Add(new Product_GaleryViewModel() { ProductsId = id, Image = Image });
+                }
+                await _context.SaveChangesAsync();
+                    return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

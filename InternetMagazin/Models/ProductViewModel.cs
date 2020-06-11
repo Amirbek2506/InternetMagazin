@@ -11,7 +11,6 @@ namespace InternetMagazin.Models
         public string Title { get; set; }
         public string Articul { get; set; }
         public int CategoryId { get; set; }
-        public string Image { get; set; }
         public decimal Price { get; set; }
         public decimal Price_Discount { get; set; }
         public string Description { get; set; }
