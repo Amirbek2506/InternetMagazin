@@ -72,7 +72,7 @@
                                                 <span class="name">{!! $userInfo->name !!}</span>
                                             </span>
                                         </a>
-                                    <li><a href="{{ url('/logout') }}"><i class="zmdi zmdi-lock-open"></i>Выход</a></li>
+                                    <li><a href="#"><i class="zmdi zmdi-lock-open"></i>Выход</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -89,10 +89,10 @@
                         <li>
                             <a href=""><i class="ti-home"></i> <span>Главная</span></a>
                         </li>
-                        <li><a href="~/Admin/Index_product"><i class="ti-user" aria-hidden="true"></i> <span>Пользователи</span></a></li>
+                        <li><a href="/Admin/Index_product"><i class="ti-user" aria-hidden="true"></i> <span>Пользователи</span></a></li>
 
                         <li class="has-sub-menu">
-                            <a data-id="0" href="#">
+                            <a id="0" href="#">
                                 <span> <i class="ti-package"></i> <span>Каталог</span></span>
                             </a>
                             @{
@@ -106,7 +106,7 @@
                                         if (Category.ParentId == 0)
                                         {
                                             <li id="cat_side_bar_{@Category.Id}" class="has-sub-menu">
-                                                <a catLevel="1" data-id="@Category.Id" href="#">
+                                                <a id="1" data-id="@Category.Id" href="#">
 
                                                 <span>@Category.Title</span>
                                                 </a>

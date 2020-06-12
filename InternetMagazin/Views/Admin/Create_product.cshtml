@@ -1,0 +1,27 @@
+﻿@{
+    Layout =null;
+}
+@{ ProductViewModel Create_Product = Model;}
+<tr class="text-center" style="vertical-align: middle" id="table_item_adm_@Create_Product.Id">
+    <th width="15%" style="vertical-align: middle">
+        @if (Create_Product.Product_Galeries.Count() > 0)
+        {
+            <div class="image-cat">
+                <img src="/uploads/products/@Create_Product.Id/@Create_Product.Product_Galeries.First().Image" alt="">
+            </div>
+        }
+        else
+        {
+            <div>Нет фото</div>
+        }
+    </th>
+    <td width="20%" class="text-center" style="vertical-align: middle"> <strong>@Create_Product.Title</strong></td>
+    <td class="text-center" style="vertical-align: middle">@Create_Product.Articul</td>
+    <td class="text-center" style="vertical-align: middle">@Create_Product.Price</td>
+    <td class="text-center" style="vertical-align: middle">@Create_Product.Price_Discount</td>
+    <td class="text-center" style="vertical-align: middle">@Create_Product.Quontity</td>
+    <td width="170" class="text-center act" style="vertical-align: middle">
+        <span data-id="@Create_Product.Id" id="edit_product" class="ti-pencil edit-item mr-10"></span>
+        <span data-id="@Create_Product.Id" id="delete_product" class="ti-trash delete-item"></span>
+    </td>
+</tr>

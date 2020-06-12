@@ -3,11 +3,6 @@
 
 
     function ajaxReq(url, method='GET', callback,  data=null, errorElementID= 'null') {
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-Token': $('meta[name=csrf-token]').attr('content')
-            }
-        });
         $.ajax({
             url: url,
             data: data,
@@ -322,6 +317,7 @@ $('#add_product_modal').modal('show');
     }
     */
 
+
     var imageProduct = [];
     $(document).on('click', '#upload_temp_btn', function (e) {
         e.preventDefault();
@@ -353,6 +349,37 @@ $('#add_product_modal').modal('show');
         });
     });
 
+
+    $(document).on('click', '#upload_temp_edit_btn', function (e) {
+        e.preventDefault();
+        let file = $('#image_to_temp_edit').prop('files')[0];
+        let folderName =$(this).attr('data-id').toString();
+        let folderproductsName = "products\\";
+        let formdata = new FormData();
+        formdata.append('file', file);
+        formdata.append('folderName', folderName);
+        formdata.append('folderproductsName', folderproductsName);
+        $.ajaxSetup({
+            headers: {}
+        });
+        $.ajax({
+            url: "/Admin/AddImageProduct",
+            data: formdata,
+            type: "POST",
+            contentType: false,
+            cache: false,
+            processData: false,
+            //dataType: 'json',
+            success: function (data) {
+                $('#images_product_edit').append('<div class="col-3 mb-15">\n' +
+                    '                                                <img src="/uploads/products/' + data + '" alt="">\n' +
+                    '                                            </div>');
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    });
 
 
 
@@ -390,8 +417,7 @@ $('#add_product_modal').modal('show');
             processData: false,
             //dataType: 'json',
             success: function (data) {
-                alert(data);
-                $('#table-adm').append(data.res);
+                $('#table_adm').append(data);
                 $('#add_product_modal').modal('hide');
                 $('#title_new').val('');
                 $('#articul_new').val('');
@@ -399,11 +425,12 @@ $('#add_product_modal').modal('show');
                 $('#photo_new').val('');
                 $('#price_discount_new').val('');
                 $('#quontity_new').val('');
-                $('#description_new').summernote.empty();
+                $('#description_new').val('');
                 $('#is_sale_new').prop('checked', false);
                 $('#is_new_new').prop('checked', false);
                 $('#images_product').html('');
                 imageProduct = [];
+                alert("Успешно добавлен!");
             },
             error: function (data) {
                 console.log(data);
@@ -414,11 +441,22 @@ $('#add_product_modal').modal('show');
 
 $(document).on('click', '#delete_product', function (e) {
 e.preventDefault();
-let id = $(this).attr('data-id');
-    ajaxReq('/Admin/Delete_product/' + id, 'GET', (data) => {
-        alert(data);
-    $('#table_item_adm_'+id).remove();
-});
+    let id = $(this).attr('data-id');
+        $.ajax({
+            url: "/Admin/Delete_product/" + id,
+            data: null,
+            type: "GET",
+            contentType: false,
+            cache: false,
+            processData: false,
+            //dataType: 'json',
+            success: function (data) {
+                $('#table_item_adm_'+id).remove();
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
 });
 
 $(document).on('click', '#edit_product', function (e) {
@@ -434,59 +472,45 @@ let id = $(this).attr('data-id');
     $(document).on('click', '#save_edit_product', function () {
         let id = $(this).attr('data-id');
         let title = $('#title_edit').val();
-        let slug = $('#slug_edit').val();
         let articul = $('#articul_edit').val();
         let price = $('#price_edit').val();
-        let phote = $('#photo_edit').prop('files')[0];
         let price_discount = $('#price_discount_edit').val();
-        let quantity = $('#quantity_edit').val();
-        let descr = $('#descr_edit').summernote('code');
-        let instruction = $('#instruction_edit').summernote('code');
+        let quontity = $('#quontity_edit').val();
+        let Description = $('#Description_edit').summernote('code');
 
         let is_sale = ($('#is_sale_edit').prop('checked')== true)? '1':'0';
         let is_new = ($('#is_new_edit').prop('checked')== true)? '1':'0';
-        let is_hot = ($('#is_hot_edit').prop('checked')== true)? '1':'0';
         price_discount = (is_sale == 0)? 0.00: price_discount;
 
         let data = new FormData();
         data.append('id', id);
         data.append('title', title);
-        data.append('slug', slug);
         data.append('articul', articul);
         data.append('price', price);
-        data.append('phote', phote);
         data.append('price_discount', price_discount);
-        data.append('quantity', quantity);
-        data.append('descr', descr);
-        data.append('instruction', instruction);
-        data.append('imageProduct', imageProduct.toString());
+        data.append('quontity', quontity);
+        data.append('Description', Description);
         data.append('is_sale', is_sale);
         data.append('is_new', is_new);
-        data.append('is_hot', is_hot);
-        data.append('recomendProducts', recomendProductsEdit.toString());
-
-        ajaxReq('/admin/product/update', 'POST', (data)=>{
-            //console.log(data);
-            $('#table_item_adm_'+id).html(data.res);
+        ajaxReq('/Admin/Save_edit_product', 'POST', (data) => {
+            $('#table_item_adm_' + id).remove();
+            $('#table_adm').prepend(data);
             $('#edit_product_modal').modal('hide');
             $('#title_edit').val('');
-            $('#slug_edit').val('');
             $('#articul_edit').val('');
             $('#price_edit').val('');
-            $('#photo_edit').val('');
             $('#price_discount_edit').val('');
-            $('#quantity_edit').val('');
-            $('#descr_edit').val('');
-            $('#instruction_edit').val('');
-            imageProduct = [];
-
+            $('#quontity_edit').val('');
+            $('#Description_edit').val('');
         }, data)
     });
+
+
 
 $(document).on('click', '#delete_galery_item', function (e) {
 e.preventDefault();
 let id = $(this).attr('data-id');
-ajaxReq('/admin/product-galery/delete/'+id, "GET", (data)=>{
+    ajaxReq('/Admin/DeleteImage/'+id, "GET", (data)=>{
     $('#galery_item_'+id).remove();
 });
 });

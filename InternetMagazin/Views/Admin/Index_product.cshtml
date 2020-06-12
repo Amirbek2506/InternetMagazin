@@ -35,7 +35,7 @@
                             <th width="170" class="text-center" style="vertical-align: middle">Действие</th>
                         </tr>
                     </thead>
-                    <tbody id="table-adm">
+                    <tbody id="table_adm">
                         @{List<ProductViewModel> Products = ViewBag.GetProducts;}
                         @if (Products.Count > 0)
                         {
@@ -146,7 +146,7 @@
                                 <div class="row mbn-20">
                                     <div class="col-12 mb-20">
                                         <label for="formLayoutMessage1">Описание (не обязательно)</label>
-                                        <textarea id="description_new" class="form-control"></textarea>
+                                        <textarea id="description_new" class="summernote-description-edit form-control form-control-sm">@null</textarea>
                                     </div>
                                 </div>
                             </form>
@@ -178,6 +178,7 @@
     </div>
 </div>
 <!-- Modal -->
+
 <div class="modal fade" id="edit_product_modal">
     <div class="modal-dialog modal-lg">
         <div id="edit_product_modal_body" class="modal-content">
@@ -185,6 +186,27 @@
         </div>
     </div>
 </div>
+
+
+<script>
+
+    (function ($) {
+        "use strict";
+
+        /*Summernote*/
+        if( $('.summernote-description-edit').length ) {
+            $('.summernote-description-edit').summernote({
+                height: 250,
+            });
+        }/*Summernote*/
+        if( $('.summernote-instruction-edit').length ) {
+            $('.summernote-instruction-edit').summernote({
+                height: 250,
+            });
+        }
+
+    })(jQuery);
+</script>
 
 <script src="~/js/bootstrap-select.js"></script>
 <script src="~/js/bootstrapSelect.active.js"></script>

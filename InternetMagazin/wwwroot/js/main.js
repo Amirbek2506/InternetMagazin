@@ -164,26 +164,15 @@ $sideHeaderNav.on('click', 'li a, li .menu-expand', function(e) {
             $this.parent('li').addClass('active').children('ul').slideDown().siblings('a').find('.menu-expand i').removeClass('zmdi-chevron-down').addClass('zmdi-chevron-up');
             $this.parent('li').siblings('li').removeClass('active').find('ul:visible').slideUp().siblings('a').find('.menu-expand i').removeClass('zmdi-chevron-up').addClass('zmdi-chevron-down');
         }
-        let id = $(this).attr('data-id');
-        let catlvl = $(this).attr('catLevel');
+        let dataid = $(this).attr('data-id');
+        let id = $(this).attr('id');
         if(id == 0) {
-            req('/admin/categories', 'GET', function (data) {
-                //console.log(data);
+            req('/Admin/categories', 'GET', function (data) {
                 $('.content-body').html(data.html);
             });
         }
-        if(catlvl == 1){
-            ajaxReq('/admin/category/'+id, 'GET', (data)=>{
-                $('.content-body').html(data);
-            });
-        }
-        if(catlvl == 2){
-            ajaxReq('/admin/pod-category/'+id, 'GET', (data)=>{
-                $('.content-body').html(data);
-            });
-        }
-        if(catlvl == 3){
-            ajaxReq('/admin/category/'+id+'/products', 'GET', (data)=>{
+        if (id == 1) {
+            ajaxReq('/Admin/categories/' + dataid, 'GET', (data) => {
                 $('.content-body').html(data);
             });
         }

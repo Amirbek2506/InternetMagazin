@@ -22,6 +22,7 @@ namespace InternetMagazin.Models
         public virtual ICollection<CartViewModel> Carts { get; set; }
         public virtual ICollection<Order_ItemViewModel> Order_Items { get; set; }
         public virtual ICollection<Product_GaleryViewModel> Product_Galeries { get; set; }
+       // public Product_GaleryViewModel[] Galeries { get; set; }
 
     }
 }
