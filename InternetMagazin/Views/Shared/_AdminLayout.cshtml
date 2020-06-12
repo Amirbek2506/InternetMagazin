@@ -87,9 +87,9 @@
                 <nav class="side-header-menu" id="side-header-menu">
                     <ul>
                         <li>
-                            <a href=""><i class="ti-home"></i> <span>Главная</span></a>
+                            <a asp-area="" asp-controller="Admin" asp-action="Index"><i class="ti-home"></i> <span>Главная</span></a>
                         </li>
-                        <li><a href="/Admin/Index_product"><i class="ti-user" aria-hidden="true"></i> <span>Пользователи</span></a></li>
+                        <li><a href="/Admin/Index_users"><i class="ti-user" aria-hidden="true"></i> <span>Пользователи</span></a></li>
 
                         <li class="has-sub-menu">
                             <a id="0" href="#">
@@ -115,7 +115,7 @@
                                                     {
                                                         if (Categ.ParentId == Category.Id)
                                                         {
-                                                            <li id="cat_side_bar_{@Categ.Id}">
+                                                            <li id="cat_side_bar_@Categ.Id">
                                                                 <a asp-area="" asp-controller="Admin" asp-action="Index_product" asp-route-id="@Categ.Id">@Categ.Title</a>
                                                             </li>
                                                         }

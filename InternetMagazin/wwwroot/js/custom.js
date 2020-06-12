@@ -144,119 +144,49 @@ if($('#remember'). prop("checked") == true){ r=1;}
 
 
 $(document).on('click', '#ad_cat_btn', function () {
-    let id = $(this).attr('data-id');
-    ajaxReq('/admin/get-latest-element-cat/'+id, 'GET', (data)=>{
-       // console.log(data);
-        $('#sort_new').val(data);
-    });
 $('#add_category_modal').modal('show');
 });
 
 $(document).on('click', '#save_category', function (e) {
 e.preventDefault();
-let id = $(this).attr('data-id');
-let title = $('#title_new').val();
-let slug = $('#slug_new').val();
-let sort = $('#sort_new').val();
-let img = $('#image_new').prop('files')[0];
-let descr = $('#descr_new').summernote("code");
+    let title = $('#title_new').val();
+    let parentid = $(this).attr('data-id');
     let form_data = new FormData();
-    form_data.append('id', id);
     form_data.append('title', title);
-    form_data.append('slug', slug);
-    form_data.append('sort', sort);
-    form_data.append('img', img);
-    form_data.append('descr', descr);
-    ajaxReq('/admin/create/category', 'POST', (data)=>{
-        if (data.err != 0){
-            $('#title_new').val('');
-            $('#slug_new').val('');
-            $('#image_new').val('');
-            $('#descr_new').summernote("code", '');
-            $('#error').removeClass('d-none').html(data.msg);
-        }else{
-            $('#title_new').val('');
-            $('#slug_new').val('');
-            $('#sort_new').val('');
-            $('#image_new').val('');
-            $('#descr_new').summernote("code", '');
-            $('#table-adm').append(data.res);
+    form_data.append('parentid', parentid);
+    $.ajax({
+        url: '/Admin/Create_category',
+        data: form_data,
+        type: 'POST',
+        contentType: false,
+        cache: false,
+        processData: false,
+        success: function (data) {
+            $('#table-adm').append(' <tr id="table_item_adm_'+data+'">' +
+                '<td class="text-center" style="vertical-align: middle">0</td>' +
+                ' <td class="text-center" style="vertical-align: middle">' + title + '</td>' +
+                '<td width="170" class="text-center act" style="vertical-align: middle">' +
+                ' <span data-id="' + data + '" id="delete_category" class="ti-trash delete-item"></span>' +
+                '</td>' +
+                '</tr>');
             $('#add_category_modal').modal('hide');
+        },
+        error: function (data) {
+            console.log(data);
         }
-    }, form_data, 'error_pole' );
-});
-
-
-
-
-
-$(document).on('change', '#title_new', function () {
-    $('#slug_new').val(translit($(this).val()));
+    });
 });
 
 
 
 $(document).on('click', '#delete_category', function () {
 let id = $(this).attr('data-id');
-ajaxReq('/admin/category/remove/'+id, 'GET', (data)=>{
+ajaxReq('/Admin/Delete_category/'+id, 'GET', (data)=>{
     $('#cat_side_bar_'+id).remove();
-    $('#table_item_adm_'+id).remove();
-
+    $('#table_item_adm_'+id).remove();      
 });
 });
 
-$(document).on('click', '#edit_category', function () {
-let id = $(this).attr('data-id');
-ajaxReq('/admin/category/edit/'+id, 'GET', (data)=>{
-    $('#edit_category_modal_body').html(data);
-    $('#edit_category_modal').modal('show');
-});
-});
-
-    $(document).on('change', '#title_edit', function () {
-        $('#slug_edit').val(translit($(this).val()));
-    });
-
-    $(document).on('click', '#save_edit_category', function (e) {
-        e.preventDefault();
-        let id = $(this).attr('data-id');
-        let title = $('#title_edit').val();
-        let slug = translit(title);
-        let sort = $('#sort_edit').val();
-        let img = $('#image_edit').prop('files')[0];
-        let descr = $('#descr_edit').summernote("code");
-        console.log(id);
-        console.log(title);
-        console.log(slug);
-        console.log(sort);
-        console.log(img);
-        console.log(descr);
-        let form_data = new FormData();
-        form_data.append('id', id);
-        form_data.append('title', title);
-        form_data.append('slug', slug);
-        form_data.append('sort', sort);
-        form_data.append('img', img);
-        form_data.append('descr', descr);
-
-        ajaxReq('/admin/edit/category', 'POST', (data)=>{
-            if (data.err != 0){
-                $('#title_edit').val('');
-                $('#slug_edit').val('');
-                $('#image_edit').val('');
-                $('#descr_edit').summernote("code", '');
-                $('#error_edit').removeClass('d-none').html(data.msg);
-            }else{
-                $('#title_edit').val('');
-                $('#slug_edit').val('');
-                $('#sort_edit').val('');
-                $('#image_edit').val('');
-                $('#descr_edit').summernote("code", '');
-                $('#table_item_adm_'+id).html(data.res);
-                $('#edit_category_modal').modal('hide');
-            }
-        }, form_data, 'error_edit' );
-    });
 
 
     $(document).on('click', '#show_category', function () {

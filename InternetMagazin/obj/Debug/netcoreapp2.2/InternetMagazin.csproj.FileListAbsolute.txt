@@ -58,11 +58,9 @@ D:\projects\InternetMagazin — копия\InternetMagazin\obj\Debug\netcoreapp2
 D:\projects\InternetMagazin — копия\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\_ViewImports.g.cshtml.cs
 D:\projects\InternetMagazin — копия\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\_ViewStart.g.cshtml.cs
 D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_AdminLayout.g.cshtml.cs
-D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Categories\Add.g.cshtml.cs
-D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Categories\Index.g.cshtml.cs
-D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Categories\Update.g.cshtml.cs
 D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Index.g.cshtml.cs
 D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Index_product.g.cshtml.cs
 D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Edit_product.g.cshtml.cs
 D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Save_edit_product.g.cshtml.cs
 D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Create_product.g.cshtml.cs
+D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Index_categories.g.cshtml.cs

@@ -74,6 +74,8 @@ namespace InternetMagazin.Controllers
             ViewBag.GetCategories =await _context.Categories.ToListAsync<CategoryViewModel>();
                 return View();
         }
+
+        //Control Products
         [HttpGet]
         public async Task<IActionResult> Index_product(int id=2)
         {
@@ -186,11 +188,43 @@ namespace InternetMagazin.Controllers
         }
 
 
-        //categories
+        //Control Categories
         public async Task<IActionResult> categories(int id)
         {
+            CategoryViewModel categoryname;
+            if (id!=0)
+            {
+                 categoryname = (await _context.Categories.Where(p => p.Id == id).SingleAsync<CategoryViewModel>());
+            }
+            else
+            {
+                categoryname = new CategoryViewModel() { Title = "Категории на главной", Id=0};
+            }
+            ViewBag.CategoryName = categoryname;
             List<CategoryViewModel> OutputCategoriesModel = await _context.Categories.Where(p => p.ParentId == id).ToListAsync<CategoryViewModel>();
             return View("Index_categories",OutputCategoriesModel);
+        }
+
+        public async Task<int> Create_category(CategoryViewModel category)
+        {
+            _context.Categories.Add(category);
+            await _context.SaveChangesAsync();
+            return (await _context.Categories.Where(p => p.ParentId == category.ParentId).LastOrDefaultAsync<CategoryViewModel>()).Id;
+        }
+
+        public async Task<bool> Delete_category(int id)
+        {
+            _context.Categories.Remove(await _context.Categories.Where(p=>p.Id==id).SingleAsync());
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+
+        //Control Users
+        public async Task<IActionResult> Index_users()
+        {
+           List<UserViewModel> Users= await _context.Users.ToListAsync<UserViewModel>();
+            return View("Index_Users", Users);
         }
     }
 }

@@ -166,11 +166,6 @@ $sideHeaderNav.on('click', 'li a, li .menu-expand', function(e) {
         }
         let dataid = $(this).attr('data-id');
         let id = $(this).attr('id');
-        if(id == 0) {
-            req('/Admin/categories', 'GET', function (data) {
-                $('.content-body').html(data.html);
-            });
-        }
         if (id == 1) {
             ajaxReq('/Admin/categories/' + dataid, 'GET', (data) => {
                 $('.content-body').html(data);
