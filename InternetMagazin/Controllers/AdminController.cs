@@ -77,13 +77,13 @@ namespace InternetMagazin.Controllers
 
         //Control Products
         [HttpGet]
-        public async Task<IActionResult> Index_product(int id=2)
+        public async Task<IActionResult> Index_product(int id)
         {
             ViewBag.Category = _context.Categories.Where(p => p.Id == id).FirstOrDefault<CategoryViewModel>();
-            ViewBag.GetProducts=await _context.Products.Where(p => p.CategoryId == id).ToListAsync<ProductViewModel>();
+            List<ProductViewModel> Products=await _context.Products.Where(p => p.CategoryId == id).ToListAsync<ProductViewModel>();
             ViewBag.GetImagesProducts =await _context.Product_Galeries.ToListAsync<Product_GaleryViewModel>();
             ViewBag.GetCategories = await _context.Categories.ToListAsync<CategoryViewModel>();
-            return this.View();
+            return View("Index_product",Products);
         }
         public async Task<string> Delete_product(int id)
         {
@@ -94,10 +94,9 @@ namespace InternetMagazin.Controllers
                 if(listgalery.Count()>0)
                 _context.Product_Galeries.RemoveRange(listgalery);
                 await _context.SaveChangesAsync();
-                string addresfolderimage = $"{this._appEnvironment.WebRootPath }\\uploads\\products\\{id}";
-                if (!Directory.Exists(addresfolderimage))
-                    Directory.Delete(addresfolderimage);
-                
+                string addresfolderimage = this._appEnvironment.WebRootPath +"\\uploads\\products\\"+id;
+                if (Directory.Exists(addresfolderimage))
+                    Directory.Delete(addresfolderimage,true);
                 return "Успешно удален!";
             }
             catch(SqlException ex)
@@ -214,17 +213,102 @@ namespace InternetMagazin.Controllers
 
         public async Task<bool> Delete_category(int id)
         {
-            _context.Categories.Remove(await _context.Categories.Where(p=>p.Id==id).SingleAsync());
+            List<CategoryViewModel> podcategories=await _context.Categories.Where(p => p.ParentId == id).ToListAsync();
+            if(podcategories.Count()>0)
+            {
+                foreach(var category in podcategories)
+                {
+                    _context.Categories.Remove(await _context.Categories.Where(p => p.Id == category.Id).SingleAsync());
+                    await Delete_ProductsByCategory(category.Id);
+                }
+            }
+            _context.Categories.Remove(await _context.Categories.Where(p => p.Id == id).SingleAsync());
+            await Delete_ProductsByCategory(id);
             await _context.SaveChangesAsync();
             return true;
         }
 
+        public async Task Delete_ProductsByCategory(int categoryid)
+        {
+            List<ProductViewModel> products=await _context.Products.Where(p=>p.CategoryId==categoryid).ToListAsync();
+            if (products.Count() > 0)
+            {
+                foreach (var prod in products)
+                {
+                    _context.Products.Remove(await _context.Products.Where(p => p.Id == prod.Id).SingleAsync());
+                    List<Product_GaleryViewModel> listgalery = await _context.Product_Galeries.Where(p => p.ProductsId == prod.Id).ToListAsync<Product_GaleryViewModel>();
+                    if (listgalery.Count() > 0)
+                        _context.Product_Galeries.RemoveRange(listgalery);
+                    await _context.SaveChangesAsync();
+                    string addresfolderimage = $"{this._appEnvironment.WebRootPath }\\uploads\\products\\{prod.Id}";
+                    if (Directory.Exists(addresfolderimage))
+                        Directory.Delete(addresfolderimage, true);
+                }
+            }
+        }
 
         //Control Users
         public async Task<IActionResult> Index_users()
         {
+            ViewBag.Roles = await _context.Rolles.ToListAsync<RollViewModel>();
            List<UserViewModel> Users= await _context.Users.ToListAsync<UserViewModel>();
             return View("Index_Users", Users);
+        }
+
+        public async Task<IActionResult> Create_user(UserViewModel user,IFormFile image)
+        {
+            user.Image = image.FileName;
+            _context.Users.Add(user);
+            if(await _context.SaveChangesAsync()>0)
+            {
+                string folder = this._appEnvironment.WebRootPath + "\\uploads\\users\\"+user.Id;
+                if (!Directory.Exists(folder))
+                    Directory.CreateDirectory(folder);
+                if(image!=null)
+                using (FileStream output = System.IO.File.Create(folder+"\\"+user.Image))
+                    await image.CopyToAsync(output);
+            }
+            return View("Create_user",user);
+        }
+
+        public async Task<string> Delete_user(int id)
+        {
+            try
+            {
+            _context.Users.Remove(await _context.Users.Where(p => p.Id == id).SingleAsync());
+             List<ReviewViewModel> reviews=await _context.Reviews.Where(p => p.UserId == id).ToListAsync();
+            if(reviews.Count()>0)
+            {
+                _context.Reviews.RemoveRange(reviews);
+            }
+            List<CartViewModel> carts = await _context.Carts.Where(p => p.UserId == id).ToListAsync();
+            if(carts.Count()>0)
+            {
+                _context.Carts.RemoveRange(carts);
+            }
+            List<OrderViewModel> orders = await _context.Orders.Where(p => p.UserId == id).ToListAsync();
+            if(orders.Count()>0)
+            {
+                _context.Orders.RemoveRange(orders);
+            }
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                string addresfolderimage = $"{this._appEnvironment.WebRootPath }\\uploads\\users\\{id}";
+                if (Directory.Exists(addresfolderimage))
+                    Directory.Delete(addresfolderimage, true);
+            }
+                return "Удаления успешно завершен!";
+            }
+            catch(SqlException ex)
+            {
+               return ex.Message;
+            }
+        }
+
+        public async Task<IActionResult> Edit_user(int id)
+        {
+
+            return View("Edit_user",);
         }
     }
 }

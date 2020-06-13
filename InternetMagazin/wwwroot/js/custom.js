@@ -188,28 +188,28 @@ ajaxReq('/Admin/Delete_category/'+id, 'GET', (data)=>{
 });
 
 
+    $(document).on('click', '#index_user', function () {
+        ajaxReq('/Admin/Index_users', 'GET', (data) => {
+            $('.content-body').html(data);
+        });
+    });
 
-    $(document).on('click', '#show_category', function () {
+
+    $(document).on('click', '#show_parent_category', function () {
 let id = $(this).attr('data-id');
-ajaxReq('/admin/category/'+id, 'GET', (data)=>{
+ajaxReq('/Admin/categories/'+id, 'GET', (data)=>{
     $('.content-body').html(data);
 });
     });
 
 
-    $(document).on('click', '#show_p_category', function () {
-let id = $(this).attr('data-id');
-ajaxReq('/admin/pod-category/'+id, 'GET', (data)=>{
-    $('.content-body').html(data);
-});
-    });
 
 
-$(document).on('click', '#show_product_category', function () {
-let id = $(this).attr('data-id');
-ajaxReq('/admin/category/'+id+'/products', 'GET', (data)=>{
-    $('.content-body').html(data);
-});
+    $(document).on('click', '#show_products', function () {
+        let id = $(this).attr('data-id');
+        ajaxReq('/Admin/Index_product/' + id, 'GET', (data) => {
+            $('.content-body').html(data);
+        });
     });
 
 
@@ -220,32 +220,6 @@ ajaxReq('/admin/category/'+id+'/products', 'GET', (data)=>{
 $(document).on('click', '#ad_product_btn', function () {
 $('#add_product_modal').modal('show');
 });
-
-
-/*
-    $(document).on('click', '#upload_temp_btn', function ('#image_to_temp') {
-        var input = document.getElementById(inputId);
-        var files = input.files;
-        var formData = new FormData();
-
-        for (var i = 0; i != files.length; i++) {
-            formData.append("files", files[i]);
-        }
-
-        $.ajax(
-            {
-                url: "/uploader",
-                data: formData,
-                processData: false,
-                contentType: false,
-                type: "POST",
-                success: function (data) {
-                    alert("Files Uploaded!");
-                }
-            }
-        );
-    }
-    */
 
 
     var imageProduct = [];
@@ -447,25 +421,6 @@ let id = $(this).attr('data-id');
 
 
 
-
-    //change active
-    $(document).on("click", "#change_user_active", function(e) {
-        e.preventDefault();
-        var id = $(this).attr('data-id');
-        ajaxReq('/admin/user/change-active/'+id, ...[,],(data)=>{
-            //console.log(data);
-            if(data == 0){
-                $('#sts_'+id). prop("checked", false);
-                $('#sts_text_'+id).html('Нет')
-            }else{
-                $('#sts_'+id). prop("checked", true);
-                $('#sts_text_'+id).html('Да')
-            }
-        });
-    });
-
-
-
     //change active
     $(document).on("click", "#change_slide_active", function(e) {
         e.preventDefault();
@@ -486,44 +441,42 @@ let id = $(this).attr('data-id');
 
 
 
-    $(document).on('click', '#ad_usr_btn', function (e) {
+$(document).on('click', '#ad_usr_btn', function (e) {
         e.preventDefault();
         $('#add_user_modal').modal('show');
-    });
+});
 
 
 
 $(document).on('click', '#save_user', function (e) {
 e.preventDefault();
-let name = $('#name_new').val();
-let role = $('#role_new').val();
-let surname = $('#surname_new').val();
+let lastname = $('#lastname_new').val();
+let rollesId = $('#role_new').val();
+let firstname = $('#firstname_new').val();
+let middlename = $('#middlename_new').val();
 let phone = $('#phone_new').val();
 let email = $('#email_new').val();
 let password = $('#password_new').val();
 let city = $('#city_new').val();
-let address = $('#address_new').val();
+let addres = $('#address_new').val();
 let image = $('#image_new').prop('files')[0];
 let fD = new FormData();
-fD.append('role', role);
-fD.append('name', name);
-fD.append('surname', surname);
+fD.append('rollesId', rollesId);
+fD.append('lastname', lastname);
+fD.append('firstname', firstname);
+fD.append('middlename', middlename);
 fD.append('phone', phone);
 fD.append('email', email);
 fD.append('password', password);
 fD.append('city', city);
-fD.append('address', address);
+fD.append('addres', addres);
 fD.append('image', image);
-ajaxReq('/admin/users/create', 'POST', (data)=>{
-    console.log(data);
-    if(data.err == 1){
-        $('#error_pole').removeClass('d-none').html(data.msg);
-    }
-    else if (data.err == 0){
-        $('#table-adm').append(data.res);
-        $('#name_new').val('');
+    ajaxReq('/Admin/Create_user', 'POST', (data)=>{
+        $('#table-adm_user').append(data);
+        $('#lastname_new').val('');
         $('#role_new').val('');
-        $('#surname_new').val('');
+        $('#firstname_new').val('');
+        $('#middlename_new').val('');
         $('#phone_new').val('');
         $('#email_new').val('');
         $('#password_new').val('');
@@ -531,15 +484,14 @@ ajaxReq('/admin/users/create', 'POST', (data)=>{
         $('#address_new').val('');
         $('#image_new').val('');
         $('#add_user_modal').modal('hide');
-    }
-},fD, 'error_pole');
+    },fD);
 });
 
 
     $(document).on('click', '#delete_user', function (e) {
         e.preventDefault();
         let id= $(this).attr('data-id');
-        ajaxReq('/admin/users/delete/'+id, ...[,], (data)=>{
+        ajaxReq('/Admin/Delete_user/' + id, ...[,],(data)=>{
             $('#table_item_adm_'+id).remove();
         });
     });
@@ -548,7 +500,7 @@ ajaxReq('/admin/users/create', 'POST', (data)=>{
 $(document).on('click', '#edit_user', function (e) {
     e.preventDefault();
     let id = $(this).attr('data-id');
-    ajaxReq('/admin/user/edit/'+id, ...[,], (data)=>{
+    ajaxReq('/Admin/Edit_user/'+id, ...[,], (data)=>{
         $('#edit_user_modal_body').html(data);
         $('#edit_user_modal').modal('show');
     });

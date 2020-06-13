@@ -17,6 +17,7 @@ namespace InternetMagazin.Models
         public string Delivery_type { get; set; }
         public DateTime Created_at { get; set; }
         public DateTime Updated_at { get; set; }
+
         public UserViewModel Users { get; set; }
 
         public virtual ICollection<Order_ItemViewModel> Order_Items { get; set; }

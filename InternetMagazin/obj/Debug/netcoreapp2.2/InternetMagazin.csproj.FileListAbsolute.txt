@@ -64,3 +64,5 @@ D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\
 D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Save_edit_product.g.cshtml.cs
 D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Create_product.g.cshtml.cs
 D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Index_categories.g.cshtml.cs
+D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Index_Users.g.cshtml.cs
+D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Create_user.g.cshtml.cs
