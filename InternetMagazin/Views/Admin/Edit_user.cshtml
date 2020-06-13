@@ -1,0 +1,100 @@
+﻿
+@{
+    Layout = null;
+    List<RollViewModel> roles = ViewBag.Roles;
+    UserViewModel user = Model;
+}
+<div class="modal-header">
+    <h5 class="modal-title">Редактирование пользователья</h5>
+    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+</div>
+<div class="modal-body">
+    <div class="box-body">
+        <form>
+            <div id="error-edit_pole" class="alert alert-danger d-none" role="alert">
+            </div>
+            <div class="row mbn-20">
+
+                <!--Single Select-->
+                <div class="col-12 mb-20">
+                    <h5 class="sub-title">Рол *</h5>
+                    <select id="role_edit" class="form-control form-control-sm bSelect">
+                        @if (roles.Count() > 0)
+                        {
+                            foreach (var role in roles)
+                            {
+                                if (user.RollesId == role.Id)
+                                {
+                                    <option selected value="@role.Id">@role.Title</option>
+                                }
+                                else
+                                {
+                                    <option value="@role.Id">@role.Title</option>
+                                }
+                            }
+                        }
+                    </select>
+                </div>
+                <!--Single Select-->
+
+                <div class="col-12 mb-20">
+                    <label for="formLayoutUsername3">Фамилия *</label>
+                    <input type="text" id="last_name_edit" class="form-control form-control-sm" placeholder="" value="@user.LastName">
+                </div>
+
+                <div class="col-12 mb-20">
+                    <label for="formLayoutEmail3">Имя *</label>
+                    <input type="text" id="first_name_edit" class="form-control form-control-sm" placeholder="" value="@user.FirstName">
+                </div>
+
+                <div class="col-12 mb-20">
+                    <label for="formLayoutEmail3">Отчество</label>
+                    <input type="text" id="middle_name_edit" class="form-control form-control-sm" placeholder="" value="@user.MiddleName">
+                </div>
+
+                <div class="col-12 mb-20">
+                    <label for="formLayoutPassword3">Телефон *</label>
+                    <input type="text" id="phone_edit" class="form-control form-control-sm" placeholder="" value="@user.Phone">
+                </div>
+                <div class="col-12 mb-20">
+                    <label for="formLayoutPassword3">Е-mail</label>
+                    <input type="text" id="email_edit" class="form-control form-control-sm" placeholder="" value="@user.Email">
+                </div>
+                <div class="col-12 mb-20">
+                    <label for="formLayoutPassword3">Парол *</label>
+                    <input type="text" id="password_edit" class="form-control form-control-sm" placeholder="Оставьте поле пустым, если не хотите менять" value="">
+                </div>
+
+                <div class="col-12 mb-20">
+                    <label for="formLayoutPassword3">Город</label>
+                    <input type="text" id="city_edit" class="form-control form-control-sm" placeholder="" value="@user.City">
+                </div>
+
+                <div class="col-12 mb-20">
+                    <label for="formLayoutPassword3">Адрес</label>
+                    <input type="text" id="address_edit" class="form-control form-control-sm" placeholder="" value="@user.Addres">
+                </div>
+                <div class="col-12 mb-20">
+                    <label for="formLayoutFile1">Фото (не обязательно)</label>
+                    <div class="d-flex">
+                        <input type="file" id="image_edit" class="">
+                        <div class="image-user float-right">
+                            @if (user.Image != null)
+                            {
+                                <img src="/uploads/users/@user.Id/@user.Image" alt="Нет фото">
+                            }
+                            else
+                            {
+                                <label>Нет фото</label>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button data-id="@user.Id" id="save_edit_user" class="button button-primary button-my">Сохранить</button>
+    </div>

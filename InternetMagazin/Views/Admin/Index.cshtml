@@ -1,6 +1,7 @@
 ﻿
 @{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    UserViewModel user = Model;
 }
 
-<h3>Добро пожаловать <strong>Admin</strong></h3>
+<h3>Добро пожаловать <strong>@user.FirstName</strong></h3>

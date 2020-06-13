@@ -511,36 +511,35 @@ $(document).on('click', '#edit_user', function (e) {
     $(document).on('click', '#save_edit_user', function (e) {
         e.preventDefault();
         let id = $(this).attr('data-id');
-        let name = $('#name_edit').val();
-        let role = $('#role_edit').val();
-        let surname = $('#surname_edit').val();
+        let lastname = $('#last_name_edit').val();
+        let rollesid = $('#role_edit').val();
+        let firstname = $('#first_name_edit').val();
+        let middlename = $('#middle_name_edit').val();
         let phone = $('#phone_edit').val();
         let email = $('#email_edit').val();
         let password = $('#password_edit').val();
         let city = $('#city_edit').val();
-        let address = $('#address_edit').val();
+        let addres = $('#address_edit').val();
         let image = $('#image_edit').prop('files')[0];
         let fD = new FormData();
         fD.append('id', id);
-        fD.append('role', role);
-        fD.append('name', name);
-        fD.append('surname', surname);
+        fD.append('rollesid', rollesid);
+        fD.append('lastname', lastname);
+        fD.append('firstname', firstname);
+        fD.append('middlename', middlename);
         fD.append('phone', phone);
         fD.append('email', email);
         fD.append('password', password);
         fD.append('city', city);
-        fD.append('address', address);
+        fD.append('addres', addres);
         fD.append('image', image);
-        ajaxReq('/admin/users/update', 'POST', (data)=>{
+        ajaxReq('/Admin/Save_edit_user', 'POST', (data)=>{
             console.log(data);
-            if(data.err == 1){
-                $('#error-edit_pole').removeClass('d-none').html(data.msg);
-            }
-            else if (data.err == 0){
-                $('#table_item_adm_'+id).html(data.res);
-                $('#name_edit').val('');
+                $('#table_item_adm_'+id).html(data);
+            $('#last_name_edit').val('');
                 $('#role_edit').val('');
-                $('#surname_edit').val('');
+            $('#first_name_edit').val('');
+            $('#middle_name_edit').val('');
                 $('#phone_edit').val('');
                 $('#email_edit').val('');
                 $('#password_edit').val('');
@@ -548,8 +547,7 @@ $(document).on('click', '#edit_user', function (e) {
                 $('#address_edit').val('');
                 $('#image_edit').val('');
                 $('#edit_user_modal').modal('hide');
-            }
-        },fD, 'error-edit_pole');
+            },fD);
     });
 
 $(document).on('click', '#edit_site_property', function (e) {

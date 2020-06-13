@@ -26,12 +26,10 @@ namespace InternetMagazin.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            UserViewModel User= GetUserModel();
-            ViewBag.Category = _context.Categories.ToList<CategoryViewModel>();
-            ViewBag.UserModel = User;
-            if (User.RollesId == 1)
-                return Redirect("~/Admin/Index");
-            return View();
+                UserViewModel User = GetUserModel();
+                ViewBag.Category = _context.Categories.ToList<CategoryViewModel>();
+                ViewBag.UserModel = User;
+                return View();
         }
         public IActionResult LoginUser(UserViewModel user)
         {
@@ -56,6 +54,8 @@ namespace InternetMagazin.Controllers
             {
                 HttpContext.Session.SetString("JWToken", token);
             }
+            if (Us.RollesId == 1)
+                return Redirect("~/Admin/Index/" + Us.Id);
             return RedirectToAction("Index");
         }
 

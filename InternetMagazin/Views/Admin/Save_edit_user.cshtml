@@ -1,0 +1,29 @@
+﻿
+@{
+    Layout = null;
+    UserViewModel user = Model;
+}
+    <th class="text-center act" width="15%" style="vertical-align: middle">
+        @if (user.Image != null)
+        {
+            <div class="image-cat">
+                <img src="/uploads/users/@user.Id/@user.Image" alt="">
+            </div>
+        }
+        else
+        {
+            <div>Нет фото</div>
+        }
+    </th>
+    @{string rol;
+        rol = (user.RollesId == 1) ? "Администратор" : "Клиент";
+    }
+    <td class="text-center" style="vertical-align: middle"> <strong>@user.FirstName</strong></td>
+    <td class="text-center" style="vertical-align: middle"> <strong>@rol</strong></td>
+    <td class="text-center" style="vertical-align: middle"> <strong>@user.City @user.Addres</strong></td>
+    <td class="text-center" style="vertical-align: middle">@user.Phone</td>
+    <td class="text-center" style="vertical-align: middle">@user.Email</td>
+    <td width="170" class="text-center act" style="vertical-align: middle">
+        <span data-id="@user.Id" id="edit_user" class="ti-pencil edit-item mr-10"></span>
+        <span data-id="@user.Id" id="delete_user" class="ti-trash delete-item"></span>
+    </td>

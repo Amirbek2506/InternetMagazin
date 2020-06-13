@@ -30,6 +30,7 @@
     <link rel="stylesheet" href="~/assets/css/themify-icons.css">
     <link rel="stylesheet" href="~/assets/css/material-design-iconic-font.css">
 </head>
+@{ UserViewModel user = Model;}
 <body>
     <div class="main-wrapper">
         <!-- Header Section Start -->
@@ -60,18 +61,16 @@
                                 <ul class="header-notification-area">
                                     <!--User-->
                                     <li class="adomx-dropdown col-auto">
-                                        <a class="toggle" href="#">
+                                        <a data-id="@user.Id" id="edit_user" class="toggle">
                                             <span class="user">
                                                 <span class="avatar">
-
-                                                    <img src="/public/uploads/users---" alt="">
-                                                    <img src="/public/images/default-avatar.jpg" alt="">
+                                                    <img src="~/uploads/users/@user.Id/@user.Image" alt="">
                                                     <span class="status"></span>
                                                 </span>
-                                                <span class="name">{!! $userInfo->name !!}</span>
+                                                <span class="name">@user.FirstName</span>
                                             </span>
                                         </a>
-                                    <li><a href="#"><i class="zmdi zmdi-lock-open"></i>Выход</a></li>
+                                    <li><a asp-controller="Home" asp-action="Logoff" ><i class="zmdi zmdi-lock-open"></i>Выход</a></li>
                                 </ul>
                             </div>
                         </div>

@@ -69,11 +69,17 @@ namespace InternetMagazin.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int id)
         {
+            if(User.Identity.IsAuthenticated)
+            {
+            UserViewModel user = await _context.Users.Where(p => p.Id == id).SingleAsync();
             ViewBag.GetCategories =await _context.Categories.ToListAsync<CategoryViewModel>();
-                return View();
+                return View("Index",user);
+            }
+            return BadRequest();
         }
+
 
         //Control Products
         [HttpGet]
@@ -307,8 +313,35 @@ namespace InternetMagazin.Controllers
 
         public async Task<IActionResult> Edit_user(int id)
         {
+            ViewBag.Roles = await _context.Rolles.ToListAsync<RollViewModel>();
+            return View("Edit_user",await _context.Users.Where(p=>p.Id==id).SingleAsync<UserViewModel>());
+        }
 
-            return View("Edit_user",);
+        public async Task<IActionResult> Save_edit_user(UserViewModel user,IFormFile image)
+        {
+            if(user.LastName!=null && user.FirstName!=null && user.Phone!=null && user.City!=null && user.Addres!=null)
+            {
+                var User = await _context.Users.Where(p => p.Id == user.Id).SingleAsync();
+                User.LastName = user.LastName;
+                User.FirstName = user.FirstName;
+                User.MiddleName = user.MiddleName;
+                User.Phone = user.Phone;
+                User.City = user.City;
+                User.Addres = user.Addres;
+                User.Email = user.Email;
+                if (user.Password != null)
+                    User.Password = user.Password;
+                User.RollesId = user.RollesId;
+                if(image!=null)
+                {
+                    User.Image = image.FileName;
+                    using (FileStream output = System.IO.File.Create(this._appEnvironment.WebRootPath + "\\uploads\\users\\" + user.Id +"\\"+ User.Image))
+                        await image.CopyToAsync(output);
+                }
+                 await _context.SaveChangesAsync();
+                return View("Save_edit_user", User);
+            }
+            return View();
         }
     }
 }
