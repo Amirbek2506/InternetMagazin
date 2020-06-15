@@ -13,26 +13,56 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace InternetMagazin.Controllers
 {
     public class HomeController : Controller
     {
         DataContext _context;
-        public HomeController(DataContext context)
+        IHostingEnvironment _appEnvironment;
+        public HomeController(DataContext context, IHostingEnvironment appEnvironment)
         {
             _context = context;
+            _appEnvironment = appEnvironment;
         }
+
         [HttpGet]
         public IActionResult Index()
         {
-                UserViewModel User = GetUserModel();
-                ViewBag.Category = _context.Categories.ToList<CategoryViewModel>();
-                ViewBag.UserModel = User;
-                return View();
+            ViewBag.Category = _context.Categories.ToList<CategoryViewModel>();
+            return View();
         }
-        public IActionResult LoginUser(UserViewModel user)
+
+        public async Task<string> Registr_user(UserViewModel user, IFormFile image)
         {
+            List<UserViewModel> Users = await _context.Users.Where(p => p.Phone == user.Phone || p.Password == user.Password).ToListAsync<UserViewModel>();
+            if (Users.Count() == 0)
+            {
+                if (user.FirstName != null && user.LastName != null && user.Phone.Length == 9 && int.TryParse(user.Phone, out int B) && user.Password != null && user.Addres != null && user.City != null)
+                {
+                    user.RollesId = 2;
+                    user.Image = (image != null) ? image.FileName : null;
+                    _context.Add(user);
+                    if (await _context.SaveChangesAsync() > 0)
+                    {
+                        string folder = this._appEnvironment.WebRootPath + "\\uploads\\users\\" + user.Id;
+                        if (!Directory.Exists(folder))
+                            Directory.CreateDirectory(folder);
+                        if (image != null)
+                            using (FileStream output = System.IO.File.Create(folder + "\\" + user.Image))
+                                await image.CopyToAsync(output);
+                         return "Регистрация успешно завершен!";
+                    }
+                }
+            }
+            return "Клиент по такой логин или пароль уже существует!";
+        }
+
+
+    //Authentification
+    public IActionResult LoginUser(UserViewModel user)
+    {
             string token = null;
             UserViewModel Us = _context.Users.Where(x => x.Phone == user.Phone).FirstOrDefault();
             if (Us == null)
@@ -55,9 +85,9 @@ namespace InternetMagazin.Controllers
                 HttpContext.Session.SetString("JWToken", token);
             }
             if (Us.RollesId == 1)
-                return Redirect("~/Admin/Index/" + Us.Id);
-            return RedirectToAction("Index");
-        }
+                return RedirectToAction("Index","Admin",Us);
+            return RedirectToAction("Index","Customer",Us);
+    }
 
         public IActionResult Logoff()
         {
@@ -93,6 +123,7 @@ namespace InternetMagazin.Controllers
             claims.Add(_claim);
             return claims.AsEnumerable<Claim>();
         }
+        /*
         public UserViewModel GetUserModel()
         {
             var objLoggedInUser = new UserViewModel();
@@ -142,6 +173,6 @@ namespace InternetMagazin.Controllers
                 }
             }
             return objLoggedInUser;
-        }
+        }*/
     }
 }

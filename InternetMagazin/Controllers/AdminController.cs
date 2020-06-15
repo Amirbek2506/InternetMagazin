@@ -24,6 +24,7 @@ namespace InternetMagazin.Controllers
             _appEnvironment = appEnvironment;
         }
 
+
         [HttpPost]
         public async Task<IActionResult> Create_product(ProductViewModel product,string imageProduct)
         {
@@ -69,15 +70,14 @@ namespace InternetMagazin.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> Index(int id)
+        public async Task<IActionResult> Index(UserViewModel user)
         {
             if(User.Identity.IsAuthenticated)
             {
-            UserViewModel user = await _context.Users.Where(p => p.Id == id).SingleAsync();
             ViewBag.GetCategories =await _context.Categories.ToListAsync<CategoryViewModel>();
                 return View("Index",user);
             }
-            return BadRequest();
+            return NotFound();
         }
 
 

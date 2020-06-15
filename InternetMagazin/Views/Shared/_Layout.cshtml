@@ -3,7 +3,14 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - InternetMagazin</title>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>InternetMagazin</title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -31,13 +38,12 @@
     <!-- Animation CSS -->
     <link rel="stylesheet" href="assets/css/animate.css">
     <!-- Latest Bootstrap min CSS -->
-    <link href="@Url.Content("~/wwwroot/assets/bootstrap/css/bootstrap.min.css")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/wwwroot/css/site.css")" rel="stylesheet" type="text/css" />
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
     <!-- Icon Font CSS -->
-    <link rel="stylesheet" href="~/css/all.min.css">
+    <link rel="stylesheet" href="~/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/assets/css/ionicons.min.css">
     <link rel="stylesheet" href="~/assets/css/ionicons.min.css">
     <link rel="stylesheet" href="~/assets/css/themify-icons.css">
     <link rel="stylesheet" href="~/assets/css/linearicons.css">
@@ -56,21 +62,35 @@
     <link rel="stylesheet" href="~/assets/css/style.css">
     <link rel="stylesheet" href="~/assets/css/responsive.css">
     <link rel="stylesheet" href="~/assets/css/custom.css">
+    <link rel="stylesheet" href="~/assets/css/myStyle.css">
+    <!-- Bootstrap CSS -->
+    <!-- Icon Font CSS -->
+    <!-- Plugins CSS -->
+    <!-- Helper CSS -->
+    <!-- Main Style CSS -->
+    <link rel="stylesheet" href="~/assets/css/material-design-iconic-font.min.css">
+
+    <!-- Custom Style CSS Only For Demo Purpose -->
+    <link rel="stylesheet" href="~/assets/css/themify-icons.css">
+    <link rel="stylesheet" href="~/assets/css/material-design-iconic-font.css">
 </head>
 <body>
-    <!-- LOADER -->
-    <div class="preloader">
-        <div class="lds-ellipsis">
-            <span></span>
-            <span></span>
-            <span></span>
+    <div class="main-wrapper">
+        <!-- LOADER -->
+        <div class="preloader">
+            <div class="lds-ellipsis">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
-    </div>
-    <div class="container">
-        <partial name="_CookieConsentPartial" />
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+        <div class="container">
+            <partial name="_CookieConsentPartial" />
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+
     </div>
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
@@ -94,41 +114,43 @@
 
     <!-- Latest jQuery -->
     <script src="assets/js/jquery-1.12.4.min.js"></script>
+    <script src="~/assets/js/custom.js"></script>
     <!-- popper min js -->
-    <script src="assets/js/popper.min.js"></script>
+    <script src="~/assets/js/popper.min.js"></script>
     <!-- Latest compiled and minified Bootstrap -->
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/assets/bootstrap/js/bootstrap.min.js"></script>
     <!-- owl-carousel min js  -->
-    <script src="assets/owlcarousel/js/owl.carousel.min.js"></script>
+    <script src="~/assets/owlcarousel/js/owl.carousel.min.js"></script>
     <!-- magnific-popup min js  -->
-    <script src="assets/js/magnific-popup.min.js"></script>
+    <script src="~/assets/js/magnific-popup.min.js"></script>
     <!-- waypoints min js  -->
-    <script src="assets/js/waypoints.min.js"></script>
+    <script src="~/assets/js/waypoints.min.js"></script>
     <!-- parallax js  -->
-    <script src="assets/js/parallax.js"></script>
+    <script src="~/assets/js/parallax.js"></script>
     <!-- countdown js  -->
-    <script src="assets/js/jquery.countdown.min.js"></script>
+    <script src="~/assets/js/jquery.countdown.min.js"></script>
     <!-- fit video  -->
-    <script src="assets/js/Hoverparallax.min.js"></script>
+    <script src="~/assets/js/Hoverparallax.min.js"></script>
     <!-- jquery.countTo js  -->
-    <script src="assets/js/jquery.countTo.js"></script>
+    <script src="~/assets/js/jquery.countTo.js"></script>
     <!-- imagesloaded js -->
-    <script src="assets/js/imagesloaded.pkgd.min.js"></script>
+    <script src="~/assets/js/imagesloaded.pkgd.min.js"></script>
     <!-- isotope min js -->
-    <script src="assets/js/isotope.min.js"></script>
+    <script src="~/assets/js/isotope.min.js"></script>
     <!-- jquery.appear js  -->
-    <script src="assets/js/jquery.appear.js"></script>
+    <script src="~/assets/js/jquery.appear.js"></script>
     <!-- jquery.parallax-scroll js -->
-    <script src="assets/js/jquery.parallax-scroll.js"></script>
+    <script src="~/assets/js/jquery.parallax-scroll.js"></script>
     <!-- jquery.dd.min js -->
-    <script src="assets/js/jquery.dd.min.js"></script>
+    <script src="~/assets/js/jquery.dd.min.js"></script>
     <!-- slick js -->
-    <script src="assets/js/slick.min.js"></script>
+    <script src="~/assets/js/slick.min.js"></script>
     <!-- elevatezoom js -->
     <script src="assets/js/jquery.elevatezoom.js"></script>
     <!-- scripts js -->
     <script src="assets/js/scripts.js"></script>
     <script src="~/assets/js/custom.js"></script>
+    <script src="~/js/custom.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

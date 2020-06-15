@@ -97,6 +97,60 @@
 
 
 
+    //customer 
+
+    $(document).on('click', '#save_registration_user', function (e) {
+        e.preventDefault();
+        let lastname = $('#last_name').val();
+        let firstname = $('#first_name').val();
+        let middlename = $('#middle_name').val();
+        let phone = $('#phone').val();
+        let email = $('#email').val();
+        let password = $('#password').val();
+        let city = $('#city').val();
+        let addres = $('#address').val();
+        let image = $('#image').prop('files')[0];
+        let fD = new FormData();
+        fD.append('lastname', lastname);
+        fD.append('firstname', firstname);
+        fD.append('middlename', middlename);
+        fD.append('phone', phone);
+        fD.append('email', email);
+        fD.append('password', password);
+        fD.append('city', city);
+        fD.append('addres', addres);
+        fD.append('image', image);
+        $.ajax({
+            url: '/Home/Registr_user',
+            data: fD,
+            type: 'POST',
+            contentType: false,
+            processData: false,
+            cache: false,
+            success: function (data) {
+                $('#registration_user_modal').modal('hide');
+                alert(data);
+                $('#onload-popup').modal('show');
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     $(document).on('click', '#login_admin_btn', function (e) {
 
@@ -319,7 +373,6 @@ $('#add_product_modal').modal('show');
             contentType:false,
             cache: false,
             processData: false,
-            //dataType: 'json',
             success: function (data) {
                 $('#table_adm').append(data);
                 $('#add_product_modal').modal('hide');
@@ -486,6 +539,8 @@ fD.append('image', image);
         $('#add_user_modal').modal('hide');
     },fD);
 });
+
+
 
 
     $(document).on('click', '#delete_user', function (e) {

@@ -5,7 +5,6 @@ D:\projects\InternetMagazin\InternetMagazin\bin\Debug\netcoreapp2.2\InternetMaga
 D:\projects\InternetMagazin\InternetMagazin\bin\Debug\netcoreapp2.2\InternetMagazin.pdb
 D:\projects\InternetMagazin\InternetMagazin\bin\Debug\netcoreapp2.2\InternetMagazin.Views.dll
 D:\projects\InternetMagazin\InternetMagazin\bin\Debug\netcoreapp2.2\InternetMagazin.Views.pdb
-D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\InternetMagazin.csprojAssemblyReference.cache
 D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\InternetMagazin.csproj.CoreCompileInputs.cache
 D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\InternetMagazin.RazorAssemblyInfo.cache
 D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\InternetMagazin.RazorAssemblyInfo.cs
@@ -68,3 +67,5 @@ D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\
 D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Create_user.g.cshtml.cs
 D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Edit_user.g.cshtml.cs
 D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\Admin\Save_edit_user.g.cshtml.cs
+D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\Customer\index.g.cshtml.cs
+D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\InternetMagazin.csprojAssemblyReference.cache

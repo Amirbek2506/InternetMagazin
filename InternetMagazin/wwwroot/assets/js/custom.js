@@ -9,4 +9,11 @@
         (oldval == 0) ? $(this).val(1) : $(this).val(0);
     });
 
+    $(document).on('click', '#registration_btn', function () {
+        $('#registration_user_modal').modal('show');
+        $('#onload-popup').modal('hide');
+    });
+
+    
+    
 }) (jQuery);

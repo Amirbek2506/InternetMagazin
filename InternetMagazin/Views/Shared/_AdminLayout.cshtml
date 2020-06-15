@@ -106,7 +106,7 @@
                                             <li id="cat_side_bar_@Category.Id" class="has-sub-menu">
                                                 <a id="1" data-id="@Category.Id" href="#">
 
-                                                <span>@Category.Title</span>
+                                                    <span>@Category.Title</span>
                                                 </a>
                                                 <ul class="side-header-sub-menu">
                                                     @foreach (CategoryViewModel Categ in GetCategories)
@@ -126,11 +126,11 @@
                             }
                         </li>
                         <li><a src="('/admin/orders')"><i class="zmdi zmdi-shopping-basket zmdi-hc-fw"></i> <span>Заказы</span></a></li>
-                        <li><a href="{{ url('/admin/delivery') }}"><i class="zmdi zmdi-truck zmdi-hc-fw"></i> <span>Доставка</span></a></li>
-                        <li><a href="{{ url('/admin/slideshow') }}"><i class="zmdi zmdi-collection-image zmdi-hc-fw"></i> <span>Слайдшоу</span></a></li>
+                        <li><a href="/admin/delivery"><i class="zmdi zmdi-truck zmdi-hc-fw"></i> <span>Доставка</span></a></li>
+                        <li><a href="'/admin/slideshow'"><i class="zmdi zmdi-collection-image zmdi-hc-fw"></i> <span>Слайдшоу</span></a></li>
                         <li><a id="show_parent_category" data-id="0"><i class="zmdi zmdi-dns zmdi-hc-fw"></i> <span>Категории на главной</span></a></li>
-                        <li><a href="{{ url('/admin/site-settings') }}"><i class="zmdi zmdi-settings"></i> <span>Конфигурации</span></a></li>
-                        <li><a href="{{ url('/logout') }}"><i class="ti-unlock"></i> <span>Выход</span></a></li>
+                        <li><a href="/admin/site-settings') }}"><i class="zmdi zmdi-settings"></i> <span>Конфигурации</span></a></li>
+                        <li><a asp-controller="Home" asp-action="Logoff"><i class="ti-unlock"></i> <span>Выход</span></a></li>
                     </ul>
                 </nav>
             </div><!-- Side Header Inner End -->
