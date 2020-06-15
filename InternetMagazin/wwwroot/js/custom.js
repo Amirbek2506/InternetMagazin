@@ -140,6 +140,45 @@
 
 
 
+    $(document).on('click', '#edit_custom', function (e) {
+        e.preventDefault();
+        let id = $(this).attr('data-id');
+        ajaxReq('/Customer/Edit/' + id, ...[,], (data) => {
+            $('#edit_custom_modal_body').html(data);
+            $('#edit_custom_modal').modal('show');
+        });
+    });
+
+
+    $(document).on('click', '#save_edit_custom', function (e) {
+        e.preventDefault();
+        let id = $(this).attr('data-id');
+        let lastname = $('#last_name_edit').val();
+        let firstname = $('#first_name_edit').val();
+        let middlename = $('#middle_name_edit').val();
+        let phone = $('#phone_edit').val();
+        let email = $('#email_edit').val();
+        let password = $('#password_edit').val();
+        let city = $('#city_edit').val();
+        let addres = $('#address_edit').val();
+        let image = $('#image_edit').prop('files')[0];
+        let fD = new FormData();
+        fD.append('id', id);
+        fD.append('lastname', lastname);
+        fD.append('firstname', firstname);
+        fD.append('middlename', middlename);
+        fD.append('phone', phone);
+        fD.append('email', email);
+        fD.append('password', password);
+        fD.append('city', city);
+        fD.append('addres', addres);
+        fD.append('image', image);
+        ajaxReq('/Customer/Save_edit', 'POST', (data) => {
+            alert(data);
+            $('#edit_custom_modal').modal('hide');
+        }, fD);
+    });
+
 
 
 

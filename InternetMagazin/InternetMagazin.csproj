@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Views\Customer\edit.xaml" />
     <None Remove="Views\Home\index.cshtml~RFe5c73.TMP" />
   </ItemGroup>
 
@@ -28,9 +29,15 @@
 
 
   <ItemGroup>
-    <Folder Include="Views\Customer\" />
     <Folder Include="wwwroot\assets\" />
     <Folder Include="wwwroot\uploads\temp\" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Compile Update="Views\Customer\edit.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
 
 </Project>

@@ -4,7 +4,15 @@
     UserViewModel user = ViewBag.UserModel;
 }
     <body>
-        
+
+        <!-- Modal -->
+        <div class="modal fade" id="edit_custom_modal">
+            <div class="modal-dialog modal-lg">
+                <div id="edit_custom_modal_body" class="modal-content">
+
+                </div>
+            </div>
+        </div>
         <!-- START HEADER -->
         <header class="header_wrap">
             <div class="middle-header dark_skin">
@@ -35,7 +43,7 @@
                                     <ul class="header-notification-area">
                                         <!--User-->
                                         <li class="adomx-dropdown col-auto">
-                                            <a data-id="@user.Id" id="edit_user" class="toggle">
+                                            <a data-id="@user.Id" id="edit_custom" class="toggle">
                                                 <span class="user">
                                                     <span class="avatar">
                                                         <img src="~/uploads/users/@user.Id/@user.Image" alt="">
