@@ -28,10 +28,12 @@ namespace InternetMagazin.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            ViewBag.Category = _context.Categories.ToList<CategoryViewModel>();
-            return View();
+            List<ProductViewModel> Products = await _context.Products.ToListAsync<ProductViewModel>();
+            ViewBag.GetImagesProducts = await _context.Product_Galeries.ToListAsync<Product_GaleryViewModel>();
+            ViewBag.GetCategories = await _context.Categories.ToListAsync<CategoryViewModel>();
+            return View("Index", Products);
         }
 
         public async Task<string> Registr_user(UserViewModel user, IFormFile image)
@@ -60,8 +62,19 @@ namespace InternetMagazin.Controllers
         }
 
 
-    //Authentification
-    public IActionResult LoginUser(UserViewModel user)
+        [HttpGet]
+        public async Task<IActionResult> Index_product(int id)
+        {
+            ViewBag.Category = _context.Categories.Where(p => p.Id == id).FirstOrDefault<CategoryViewModel>();
+            List<ProductViewModel> Products = await _context.Products.Where(p => p.CategoryId == id).ToListAsync<ProductViewModel>();
+            ViewBag.GetImagesProducts = await _context.Product_Galeries.ToListAsync<Product_GaleryViewModel>();
+            return View("Index_product", Products);
+        }
+
+
+
+        //Authentification
+        public IActionResult LoginUser(UserViewModel user)
     {
             string token = null;
             UserViewModel Us = _context.Users.Where(x => x.Phone == user.Phone).FirstOrDefault();
@@ -101,6 +114,8 @@ namespace InternetMagazin.Controllers
             List<Claim> claims = new List<Claim>();
             Claim _claim;
             _claim = new Claim("LastName", user.LastName);
+            claims.Add(_claim);
+            _claim = new Claim("Id", user.Id.ToString());
             claims.Add(_claim);
             _claim = new Claim("FirstName", user.FirstName);
             claims.Add(_claim);

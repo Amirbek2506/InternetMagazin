@@ -11,3 +11,13 @@
     padding: 30px;
     margin-top: 58px;
 }
+.no-gutters > .col, .no-gutters > [class*=col-] {
+    padding-right: 10px;
+    padding-left: 10px;
+}
+.form-check-input {
+    margin-left: 0rem;
+}
+label {
+    display: inline-flex;
+}

@@ -13,11 +13,11 @@ namespace InternetMagazin.Models
         public int ProductId { get; set; }
         public decimal Price { get; set; }
         public int Quantity { get; set; }
-        public DateTime Created_at { get; set; }
-        public DateTime Updated_at { get; set; }
+        public string Created_at { get; set; }
+        public string Updated_at { get; set; }
 
-        public UserViewModel Users { get; set; }
-        public ProductViewModel Products { get; set; }
+        public UserViewModel User { get; set; }
+        public ProductViewModel Product { get; set; }
 
 
     }

@@ -70,3 +70,6 @@ D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\
 D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\Customer\index.g.cshtml.cs
 D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\InternetMagazin.csprojAssemblyReference.cache
 D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\Customer\edit.g.cshtml.cs
+D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\Home\Index_product.g.cshtml.cs
+D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_CustomLayout.g.cshtml.cs
+D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\Customer\Index_product.g.cshtml.cs

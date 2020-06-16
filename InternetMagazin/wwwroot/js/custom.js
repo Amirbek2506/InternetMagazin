@@ -139,6 +139,10 @@
     });
 
 
+    $(document).on('click', '#registration_btn', function () {
+        $('#registration_user_modal').modal('show');
+        $('#input_modal').modal('hide');
+    });
 
     $(document).on('click', '#edit_custom', function (e) {
         e.preventDefault();
@@ -147,6 +151,10 @@
             $('#edit_custom_modal_body').html(data);
             $('#edit_custom_modal').modal('show');
         });
+    });
+
+    $(document).on('click', '#log__in', function () {
+                $('#input_modal').modal('show');
     });
 
 
@@ -180,9 +188,33 @@
     });
 
 
+    
+    $(document).on('click', '#show_products_custom', function () {
+        let id = $(this).attr('data-id');
+        ajaxReq('/Home/Index_product/' + id, 'GET', (data) => {
+            $('.content-body').html(data);
+        });
+    });
+
+
+    $(document).on('click', '#show_products_customer', function () {
+        let id = $(this).attr('data-id');
+        ajaxReq('/Customer/Index_product/' + id, 'GET', (data) => {
+            $('.content-body').html(data);
+        });
+    });
 
 
 
+    $(document).on('click', '#add_to_cart', function (e) {
+        e.preventDefault();
+        let id = $(this).attr('data-id');
+        ajaxReq('/Customer/Add_to_cart/' + id, 'POST', (data) => {
+            alert(data);
+        });
+    });
+
+    
 
 
 
@@ -243,10 +275,12 @@ $('#add_category_modal').modal('show');
 $(document).on('click', '#save_category', function (e) {
 e.preventDefault();
     let title = $('#title_new').val();
+    let image = $('#image').prop('files')[0];
     let parentid = $(this).attr('data-id');
     let form_data = new FormData();
     form_data.append('title', title);
     form_data.append('parentid', parentid);
+    form_data.append('image', image);
     $.ajax({
         url: '/Admin/Create_category',
         data: form_data,
@@ -294,7 +328,6 @@ ajaxReq('/Admin/categories/'+id, 'GET', (data)=>{
     $('.content-body').html(data);
 });
     });
-
 
 
 

@@ -31,6 +31,7 @@
     <link rel="stylesheet" href="~/assets/css/material-design-iconic-font.css">
 </head>
 <body>
+    @{ UserViewModel user = ViewBag.GetUserModel;}
     <div class="main-wrapper">
         <!-- Header Section Start -->
         <div class="header-section">
@@ -60,13 +61,13 @@
                                 <ul class="header-notification-area">
                                     <!--User-->
                                     <li class="adomx-dropdown col-auto">
-                                        <a data-id="" id="log__in" class="toggle">
+                                        <a data-id="@user.Id" id="edit_user" class="toggle">
                                             <span class="user">
                                                 <span class="avatar">
-                                                    <img src="~/uploads/users/Default.jpg" alt="">
+                                                    <img src="~/uploads/users/@user.Id/@user.Image" alt="">
                                                     <span class="status"></span>
                                                 </span>
-                                                <span class="name"></span>
+                                                <span class="name">@user.FirstName</span>
                                             </span>
                                         </a>
                                     <li><a asp-controller="Home" asp-action="Logoff"><i class="zmdi zmdi-lock-open"></i>Выход</a></li>
@@ -84,7 +85,7 @@
                 <nav class="side-header-menu" id="side-header-menu">
                     <ul>
                         <li>
-                            <a asp-area="" asp-controller="Home" asp-action="Index"><i class="ti-home"></i> <span>Главная</span></a>
+                            <a asp-controller="Customer" asp-action="Index" asp-area="@user"><i class="ti-home"></i> <span>Главная</span></a>
                         </li>
                         <li class="has-sub-menu">
                             <a id="0" href="#">
@@ -111,7 +112,7 @@
                                                         if (Categ.ParentId == Category.Id)
                                                         {
                                                             <li>
-                                                                <a id="show_products_custom" data-id="@Categ.Id">@Categ.Title</a>
+                                                                <a id="show_products_customer" data-id="@Categ.Id">@Categ.Title</a>
                                                             </li>
                                                         }
                                                     }
@@ -122,9 +123,9 @@
                                 </ul>
                             }
                         </li>
-                        <li><a id="log__in"><i class="zmdi zmdi-shopping-basket zmdi-hc-fw"></i> <span>Мои заказы</span></a></li>
-                        <li><a id="log__in"><i class="ti-heart"></i> <span>Мои желании</span></a></li>
-                        <li><a id="log__in"><i class="ti-shopping-cart"></i> <span>Мая корзина</span></a></li>
+                        <li><a id=""><i class="zmdi zmdi-shopping-basket zmdi-hc-fw"></i> <span>Мои заказы</span></a></li>
+                        <li><a id=""><i class="ti-heart"></i> <span>Мои желании</span></a></li>
+                        <li><a id=""><i class="ti-shopping-cart"></i> <span>Мая корзина</span></a></li>
                         <li><a asp-controller="Home" asp-action="Logoff"><i class="ti-unlock"></i> <span>Выход</span></a></li>
                     </ul>
                 </nav>
@@ -134,9 +135,9 @@
             @RenderBody()
         </div>
     </div>
-    <div class="modal fade" id="edit_user_modal">
+    <div class="modal fade" id="edit_custom_modal">
         <div class="modal-dialog modal-lg">
-            <div id="edit_user_modal_body" class="modal-content">
+            <div id="edit_custom_modal_body" class="modal-content">
 
             </div>
         </div>

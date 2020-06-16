@@ -150,6 +150,9 @@ namespace InternetMagazin.Controllers
             return null;
         }
 
+
+
+
         // Function MoveImages and SaveImages at db 
         public async Task<bool> SaveImages(string imagesproduct,int id)
         {
@@ -210,11 +213,21 @@ namespace InternetMagazin.Controllers
             return View("Index_categories",OutputCategoriesModel);
         }
 
-        public async Task<int> Create_category(CategoryViewModel category)
+        public async Task<int> Create_category(CategoryViewModel category,IFormFile image)
         {
+            category.Image = image.FileName;
             _context.Categories.Add(category);
-            await _context.SaveChangesAsync();
-            return (await _context.Categories.Where(p => p.ParentId == category.ParentId).LastOrDefaultAsync<CategoryViewModel>()).Id;
+          if( await _context.SaveChangesAsync()>0)
+            {string folder = this._appEnvironment.WebRootPath + "\\uploads\\categories\\" +category.Id;
+            if (!Directory.Exists(folder))
+                Directory.CreateDirectory(folder);
+            if (image != null)
+            {
+                using (FileStream output = System.IO.File.Create(this._appEnvironment.WebRootPath + "\\uploads\\categories\\" + category.Id + "\\" + category.Image))
+                    await image.CopyToAsync(output);
+            }
+            }
+            return category.Id;
         }
 
         public async Task<bool> Delete_category(int id)
@@ -230,6 +243,9 @@ namespace InternetMagazin.Controllers
             }
             _context.Categories.Remove(await _context.Categories.Where(p => p.Id == id).SingleAsync());
             await Delete_ProductsByCategory(id);
+            string addresfolderimage = $"{this._appEnvironment.WebRootPath }\\uploads\\categories\\{id}";
+            if (Directory.Exists(addresfolderimage))
+                Directory.Delete(addresfolderimage, true);
             await _context.SaveChangesAsync();
             return true;
         }
@@ -252,6 +268,8 @@ namespace InternetMagazin.Controllers
                 }
             }
         }
+
+
 
         //Control Users
         public async Task<IActionResult> Index_users()
