@@ -99,6 +99,8 @@ namespace InternetMagazin.Controllers
                 List<Product_GaleryViewModel> listgalery = await _context.Product_Galeries.Where(p => p.ProductsId == id).ToListAsync<Product_GaleryViewModel>();
                 if(listgalery.Count()>0)
                 _context.Product_Galeries.RemoveRange(listgalery);
+                List<WishlistViewModel> wishlist = await _context.Wishlists.Where(p => p.ProductId == id).ToListAsync();
+                _context.Wishlists.RemoveRange(wishlist);
                 await _context.SaveChangesAsync();
                 string addresfolderimage = this._appEnvironment.WebRootPath +"\\uploads\\products\\"+id;
                 if (Directory.Exists(addresfolderimage))
@@ -261,6 +263,8 @@ namespace InternetMagazin.Controllers
                     List<Product_GaleryViewModel> listgalery = await _context.Product_Galeries.Where(p => p.ProductsId == prod.Id).ToListAsync<Product_GaleryViewModel>();
                     if (listgalery.Count() > 0)
                         _context.Product_Galeries.RemoveRange(listgalery);
+                    List<WishlistViewModel> wishlist = await _context.Wishlists.Where(p => p.ProductId == prod.Id).ToListAsync();
+                    _context.Wishlists.RemoveRange(wishlist);
                     await _context.SaveChangesAsync();
                     string addresfolderimage = $"{this._appEnvironment.WebRootPath }\\uploads\\products\\{prod.Id}";
                     if (Directory.Exists(addresfolderimage))

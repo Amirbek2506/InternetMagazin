@@ -61,7 +61,7 @@
                                 <ul class="header-notification-area">
                                     <!--User-->
                                     <li class="adomx-dropdown col-auto">
-                                        <a data-id="@user.Id" id="edit_user" class="toggle">
+                                        <a data-id="@user.Id" id="edit_custom" class="toggle">
                                             <span class="user">
                                                 <span class="avatar">
                                                     <img src="~/uploads/users/@user.Id/@user.Image" alt="">
@@ -123,9 +123,9 @@
                                 </ul>
                             }
                         </li>
-                        <li><a id=""><i class="zmdi zmdi-shopping-basket zmdi-hc-fw"></i> <span>Мои заказы</span></a></li>
-                        <li><a id=""><i class="ti-heart"></i> <span>Мои желании</span></a></li>
-                        <li><a id=""><i class="ti-shopping-cart"></i> <span>Мая корзина</span></a></li>
+                        <li><a data-id="@user.Id" id=""><i class="zmdi zmdi-shopping-basket zmdi-hc-fw"></i> <span>Мои заказы</span></a></li>
+                        <li><a data-id="@user.Id" id="I_wishlist"><i class="ti-heart"></i> <span>Мои желании</span></a></li>
+                        <li><a data-id="@user.Id" id="I_cart"><i class="ti-shopping-cart"></i> <span>Мая корзина</span></a></li>
                         <li><a asp-controller="Home" asp-action="Logoff"><i class="ti-unlock"></i> <span>Выход</span></a></li>
                     </ul>
                 </nav>

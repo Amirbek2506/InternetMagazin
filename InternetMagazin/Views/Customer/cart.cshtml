@@ -1,0 +1,94 @@
+﻿
+@{
+    Layout = null;
+}
+<!-- Page Headings Start -->
+<div class="row">
+    <div class="row justify-content-between align-items-center mb-10">
+        <!-- Page Heading Start -->
+        <div class="col-12 col-lg-auto mb-20">
+            <div class="page-heading">
+                <h3 class="title">Мая корзина</h3>
+            </div>
+        </div>
+    </div><!-- Page Heading End -->
+    <div class="col-12 mb-30">
+    </div>
+    <!-- Page Headings End -->
+    <!--Default Data Table Start-->
+    <div class="col-12 mb-30">
+        <div class="box">
+            <div class="box-body" style="padding: 0;">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th width="15%" class="text-center" style="vertical-align: middle">#</th>
+                            <th width="20%" class="text-center" style="vertical-align: middle">Заголовок</th>
+                            <th class="text-center" style="vertical-align: middle">Артикул</th>
+                            <th class="text-center" style="vertical-align: middle">Цена</th>
+                            <th width="170" class="text-center" style="vertical-align: middle">Действие</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table_adm">
+                        @{List<ProductViewModel> products = Model;
+                        }
+                        @if (products.Count > 0)
+                        {
+                            @foreach (ProductViewModel product in products)
+                            {
+                                <tr class="text-center" style="vertical-align: middle" id="table_item_cus_@product.Id">
+                                    <th width="15%" style="vertical-align: middle">
+                                        @{
+                                            List<Product_GaleryViewModel> product_Galeries = ViewBag.GetImagesProducts;
+                                            int count = product_Galeries.Where(p => p.ProductsId == product.Id).Count();
+                                        }
+                                        @if (count > 0)
+                                        {
+                                            string image = product_Galeries.Where(p => p.ProductsId == product.Id).First().Image;
+                                            <div class="image-cat">
+                                                <img src="/uploads/products/@product.Id/@image" alt="">
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="image-cat">
+                                                <img src="~/uploads/products/default.jpg" alt="">
+                                            </div>
+                                        }
+                                    </th>
+                                    <td width="20%" class="text-center" style="vertical-align: middle"> <strong>@product.Title</strong></td>
+                                    <td class="text-center" style="vertical-align: middle">@product.Articul</td>
+
+                                    <td class="text-center" style="vertical-align: middle">
+                                        @if (product.Is_sale == 1)
+                                        {
+                                            <del>@product.Price   </del>
+                                            <span class="price">  @product.Price_Discount</span>
+                                        }
+                                        else
+                                        {
+                                            @product.Price
+                                        }
+                                    </td>
+
+                                    <td width="170" class="text-center act" style="vertical-align: middle">
+                                        <span data-id="@product.Id" id="add_to_wish" class="ti-heart">    </span>
+                                        <span data-id="@product.Id" id="delete_product_cart" class="ti-trash delete-item"></span>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td class="text-center" colspan="7">Нет продукт</td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Default Data Table End-->

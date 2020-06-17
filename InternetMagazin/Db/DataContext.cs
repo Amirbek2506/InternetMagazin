@@ -22,7 +22,7 @@ namespace InternetMagazin.Db
         public DbSet<Product_GaleryViewModel> Product_Galeries { get; set; }
         public DbSet<ReviewViewModel> Reviews { get; set; }
         public DbSet<SiteProperty> SiteProperties { get; set; }
-        public DbSet<SlideShowViewModel> SlideShows { get; set; }
+        public DbSet<WishlistViewModel> Wishlists { get; set; }
 
 
     }

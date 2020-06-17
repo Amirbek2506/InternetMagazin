@@ -25,27 +25,23 @@ namespace InternetMagazin.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("Created_at");
+                    b.Property<string>("Created_at");
 
                     b.Property<decimal>("Price");
 
                     b.Property<int>("ProductId");
 
-                    b.Property<int?>("ProductsId");
-
                     b.Property<int>("Quantity");
 
-                    b.Property<DateTime>("Updated_at");
+                    b.Property<string>("Updated_at");
 
                     b.Property<int>("UserId");
 
-                    b.Property<int?>("UsersId");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductsId");
+                    b.HasIndex("ProductId");
 
-                    b.HasIndex("UsersId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Carts");
                 });
@@ -143,8 +139,6 @@ namespace InternetMagazin.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<string>("Image");
-
                     b.Property<int>("Is_new");
 
                     b.Property<int>("Is_sale");
@@ -172,9 +166,7 @@ namespace InternetMagazin.Migrations
 
                     b.Property<string>("Image");
 
-                    b.Property<int>("ProductId");
-
-                    b.Property<int?>("ProductsId");
+                    b.Property<int>("ProductsId");
 
                     b.HasKey("Id");
 
@@ -279,6 +271,8 @@ namespace InternetMagazin.Migrations
 
                     b.Property<string>("FirstName");
 
+                    b.Property<string>("Image");
+
                     b.Property<string>("LastName");
 
                     b.Property<string>("MiddleName");
@@ -289,9 +283,7 @@ namespace InternetMagazin.Migrations
 
                     b.Property<string>("Remember");
 
-                    b.Property<int>("RollId");
-
-                    b.Property<int?>("RollesId");
+                    b.Property<int>("RollesId");
 
                     b.HasKey("Id");
 
@@ -300,15 +292,32 @@ namespace InternetMagazin.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("InternetMagazin.Models.WishlistViewModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ProductId");
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Wishlists");
+                });
+
             modelBuilder.Entity("InternetMagazin.Models.CartViewModel", b =>
                 {
-                    b.HasOne("InternetMagazin.Models.ProductViewModel", "Products")
+                    b.HasOne("InternetMagazin.Models.ProductViewModel", "Product")
                         .WithMany("Carts")
-                        .HasForeignKey("ProductsId");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("InternetMagazin.Models.UserViewModel", "Users")
+                    b.HasOne("InternetMagazin.Models.UserViewModel", "User")
                         .WithMany("Carts")
-                        .HasForeignKey("UsersId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("InternetMagazin.Models.OrderViewModel", b =>
@@ -341,7 +350,8 @@ namespace InternetMagazin.Migrations
                 {
                     b.HasOne("InternetMagazin.Models.ProductViewModel", "Products")
                         .WithMany("Product_Galeries")
-                        .HasForeignKey("ProductsId");
+                        .HasForeignKey("ProductsId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("InternetMagazin.Models.ReviewViewModel", b =>
@@ -355,7 +365,8 @@ namespace InternetMagazin.Migrations
                 {
                     b.HasOne("InternetMagazin.Models.RollViewModel", "Rolles")
                         .WithMany("Users")
-                        .HasForeignKey("RollesId");
+                        .HasForeignKey("RollesId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }
