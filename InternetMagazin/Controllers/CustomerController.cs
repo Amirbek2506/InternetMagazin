@@ -155,18 +155,45 @@ namespace InternetMagazin.Controllers
         public async Task<IActionResult> GetItemCart(int id)
         {
             List<CartViewModel> Cart = await _context.Carts.Where(p => p.UserId == id).ToListAsync();
-            List<ProductViewModel> products = new List<ProductViewModel>();
-            foreach (var item in Cart)
-            {
-                products.Add(await _context.Products.Where(p => p.Id == item.ProductId).FirstAsync<ProductViewModel>());
-            }
             ViewBag.GetImagesProducts = await _context.Product_Galeries.ToListAsync<Product_GaleryViewModel>();
-            return View("cart", products);
+            ViewBag.GetProducts = await _context.Products.ToListAsync();
+            return View("cart", Cart);
+        }
+
+
+        public async Task<IActionResult> Quantity_minus(int id)
+        {
+            CartViewModel Cart = await _context.Carts.Where(p => p.Id == id).SingleAsync();
+            ProductViewModel product = await _context.Products.Where(p => p.Id == Cart.ProductId).SingleAsync();
+            ViewBag.GetImagesProducts = await _context.Product_Galeries.ToListAsync<Product_GaleryViewModel>();
+            if (Cart.Quantity>1)
+            {
+                Cart.Quantity--;
+                Cart.Price = (product.Is_sale == 1 ? product.Price_Discount : product.Price) * Cart.Quantity;
+                await _context.SaveChangesAsync();
+            }
+            ViewBag.GetProduct =product;
+            return View("cart_item", Cart);
+        }
+
+        public async Task<IActionResult> Quantity_plus(int id)
+        {
+            CartViewModel Cart = await _context.Carts.Where(p => p.Id == id).SingleAsync();
+            ProductViewModel product = await _context.Products.Where(p => p.Id == Cart.ProductId).SingleAsync();
+            ViewBag.GetImagesProducts = await _context.Product_Galeries.ToListAsync<Product_GaleryViewModel>();
+            if (Cart.Quantity <product.Quontity)
+            {
+                Cart.Quantity++;
+                Cart.Price = (product.Is_sale == 1 ? product.Price_Discount : product.Price) * Cart.Quantity;
+                await _context.SaveChangesAsync();
+            }
+            ViewBag.GetProduct = product;
+            return View("cart_item", Cart);
         }
 
         public async Task<bool> Delete_item_cart(int id)
         {
-            _context.Carts.Remove(await _context.Carts.Where(p => p.ProductId == id).SingleAsync());
+            _context.Carts.Remove(await _context.Carts.Where(p => p.Id == id).SingleAsync());
             await _context.SaveChangesAsync();
             return true;
         } 

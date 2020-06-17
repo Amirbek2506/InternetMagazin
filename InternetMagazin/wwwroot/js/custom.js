@@ -99,6 +99,24 @@
 
     //customer 
 
+    $(document).on('click', '#_plus', function (e) {
+        e.preventDefault();
+        let id = $(this).attr('data-id');
+        ajaxReq('/Customer/Quantity_plus/' + id, 'GET', (data) => {
+            $('#table_item_cart_' + id).html(data);
+        });
+    });
+
+
+    $(document).on('click', '#_minus', function () {
+        let id = $(this).attr('data-id');
+        ajaxReq('/Customer/Quantity_minus/' + id, 'GET', (data) => {
+            $('#table_item_cart_' + id).html(data);
+        });
+    });
+
+
+
     $(document).on('click', '#save_registration_user', function (e) {
         e.preventDefault();
         let lastname = $('#last_name').val();
@@ -600,24 +618,7 @@ let id = $(this).attr('data-id');
 
 
 
-    //change active
-    $(document).on("click", "#change_slide_active", function(e) {
-        e.preventDefault();
-        var id = $(this).attr('data-id');
-        ajaxReq('/admin/slide/change-active/'+id, ...[,],(data)=>{
-            //console.log(data);
-            if(data == 0){
-                $('#sts_'+id). prop("checked", false);
-                $('#sts_text_'+id).html('Нет')
-            }else{
-                $('#sts_'+id). prop("checked", true);
-                $('#sts_text_'+id).html('Да')
-            }
-        });
-    });
-
-
-
+    
 
 
 $(document).on('click', '#ad_usr_btn', function (e) {

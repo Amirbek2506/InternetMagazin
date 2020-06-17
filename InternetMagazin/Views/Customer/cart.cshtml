@@ -24,58 +24,54 @@
                         <tr>
                             <th width="15%" class="text-center" style="vertical-align: middle">#</th>
                             <th width="20%" class="text-center" style="vertical-align: middle">Заголовок</th>
-                            <th class="text-center" style="vertical-align: middle">Артикул</th>
+                            <th class="text-center" style="vertical-align: middle">Количество</th>
                             <th class="text-center" style="vertical-align: middle">Цена</th>
                             <th width="170" class="text-center" style="vertical-align: middle">Действие</th>
                         </tr>
                     </thead>
-                    <tbody id="table_adm">
-                        @{List<ProductViewModel> products = Model;
+                    <tbody id="table_cart">
+                        @{List<CartViewModel> Cart = Model;
+                            List<ProductViewModel> prod = ViewBag.GetProducts;
                         }
-                        @if (products.Count > 0)
+                        @if (Cart.Count > 0)
                         {
-                            @foreach (ProductViewModel product in products)
+                            @foreach (CartViewModel cart in Cart)
                             {
-                                <tr class="text-center" style="vertical-align: middle" id="table_item_cus_@product.Id">
-                                    <th width="15%" style="vertical-align: middle">
-                                        @{
-                                            List<Product_GaleryViewModel> product_Galeries = ViewBag.GetImagesProducts;
-                                            int count = product_Galeries.Where(p => p.ProductsId == product.Id).Count();
-                                        }
-                                        @if (count > 0)
-                                        {
-                                            string image = product_Galeries.Where(p => p.ProductsId == product.Id).First().Image;
-                                            <div class="image-cat">
-                                                <img src="/uploads/products/@product.Id/@image" alt="">
-                                            </div>
-                                        }
-                                        else
-                                        {
-                                            <div class="image-cat">
-                                                <img src="~/uploads/products/default.jpg" alt="">
-                                            </div>
-                                        }
-                                    </th>
-                                    <td width="20%" class="text-center" style="vertical-align: middle"> <strong>@product.Title</strong></td>
-                                    <td class="text-center" style="vertical-align: middle">@product.Articul</td>
-
-                                    <td class="text-center" style="vertical-align: middle">
-                                        @if (product.Is_sale == 1)
-                                        {
-                                            <del>@product.Price   </del>
-                                            <span class="price">  @product.Price_Discount</span>
-                                        }
-                                        else
-                                        {
-                                            @product.Price
-                                        }
-                                    </td>
-
-                                    <td width="170" class="text-center act" style="vertical-align: middle">
-                                        <span data-id="@product.Id" id="add_to_wish" class="ti-heart">    </span>
-                                        <span data-id="@product.Id" id="delete_product_cart" class="ti-trash delete-item"></span>
-                                    </td>
-                                </tr>
+                        <tr class="text-center" style="vertical-align: middle" id="table_item_cart_@cart.Id">
+                            <th width="15%" style="vertical-align: middle">
+                                @{
+                                    List<Product_GaleryViewModel> product_Galeries = ViewBag.GetImagesProducts;
+                                    int count = product_Galeries.Where(p => p.ProductsId == cart.ProductId).Count();
+                                }
+                                @if (count > 0)
+                                {
+                                    string image = product_Galeries.Where(p => p.ProductsId == cart.ProductId).First().Image;
+                                    <div class="image-cat">
+                                        <img src="/uploads/products/@cart.ProductId/@image" alt="">
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="image-cat">
+                                        <img src="~/uploads/products/default.jpg" alt="">
+                                    </div>
+                                }
+                            </th>
+                            @{string Title_product = prod.Where(p => p.Id == cart.ProductId).First().Title;}
+                            <td width="20%" class="text-center" style="vertical-align: middle"> <strong>@Title_product</strong></td>
+                            <td class="text-center" style="vertical-align: middle">
+                                <a class="ti-minus" data-id="@cart.Id" id="_minus"></a>
+                                <label>@cart.Quantity</label>
+                                <a class="ti-plus" data-id="@cart.Id" id="_plus"></a>
+                            </td>
+                            <td class="text-center" style="vertical-align: middle">
+                                    <span>@cart.Price TJS</span>    
+                            </td>
+                             <td width="170" class="text-center act" style="vertical-align: middle">
+                                <span data-id="@cart.ProductId" id="add_to_wish" class="ti-heart">    </span>
+                                <span data-id="@cart.Id" id="delete_product_cart" class="ti-trash delete-item"></span>
+                            </td>
+                        </tr>
                             }
                         }
                         else

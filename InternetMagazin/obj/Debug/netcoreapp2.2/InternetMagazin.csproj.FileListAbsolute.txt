@@ -75,3 +75,4 @@ D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\
 D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\_ViewStart.g.cshtml.cs
 D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\Customer\wishlist.g.cshtml.cs
 D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\Customer\cart.g.cshtml.cs
+D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\Customer\cart_item.g.cshtml.cs
