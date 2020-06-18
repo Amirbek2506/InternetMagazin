@@ -1,9 +1,0 @@
-.cursor-pointer:hover{
-    cursor: pointer;
-}
-.heading_s4 h1, .heading_s4 h2, .heading_s4 h3, .heading_s4 h4, .heading_s4 h5, .heading_s4 h6 {
-    font-weight: 700;
-    margin: 0;
-    text-transform: none;
-    line-height: normal;
-}

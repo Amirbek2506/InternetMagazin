@@ -369,5 +369,36 @@ namespace InternetMagazin.Controllers
             }
             return View();
         }
+
+
+
+
+        //Control orders
+        public async Task<IActionResult> Index_orders()
+        {
+            ViewBag.GetUsers = await _context.Users.ToListAsync();
+            return View("index_orders", await _context.Orders.ToListAsync());
+        }
+
+
+        public async Task<IActionResult> Order_details(int id)
+        {
+            OrderViewModel order = await _context.Orders.Where(p => p.Id == id).SingleAsync();
+            ViewBag.User = await _context.Users.Where(p => p.Id == order.UserId).SingleAsync();
+            ViewBag.Get_order_items = await _context.Order_Items.Where(p => p.OrderId == order.Id).ToListAsync();
+            ViewBag.GetProducts = await _context.Products.ToListAsync();
+            ViewBag.GetProduct_Galeries = await _context.Product_Galeries.ToListAsync();
+            return View("order_details", order);
+        }
+
+
+        public async Task<int> Save_sts_order(int id,int sts)
+        {
+            var order= await _context.Orders.Where(p => p.Id == id).SingleAsync();
+            order.Order_Status = sts;order.Updated_at = DateTime.Now.Date;
+            await _context.Order_Items.Where(p => p.OrderId == order.Id).ForEachAsync(p => p.Updated_at = DateTime.Now.Date);
+            await _context.SaveChangesAsync();
+            return sts;
+        }
     }
 }

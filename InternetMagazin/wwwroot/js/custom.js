@@ -117,6 +117,45 @@
         }, formData);
     });
 
+    
+
+    $(document).on('click', '#index_orders', function (e) {
+        e.preventDefault();
+        ajaxReq('/Admin/Index_orders', 'GET', (data) => {
+            $('.content-body').html(data);
+        });
+    });
+
+
+
+    $(document).on('click', '#order_details', function (e) {
+        e.preventDefault();
+        let id = $(this).attr('data-id');
+        ajaxReq('/Admin/Order_details/'+id, 'GET', (data) => {
+            $('.content-body').html(data);
+        });
+    });
+    
+
+
+    $(document).on('click', '#save_sts_order', function (e) {
+        e.preventDefault();
+        let id = $(this).attr('data-id');
+        let sts = $('#new_sts_order').val();
+        let formData = new FormData();
+        formData.append('id', id);
+        formData.append('sts', sts);
+        req('/Admin/Save_sts_order', "POST", (data) => {
+            $('.order-status-' + id).html(orderStatuses[data]);
+            $('#change_sts_order_modal').modal('hide');
+
+        }, formData);
+    });
+
+
+
+
+
 
     
 
@@ -966,25 +1005,7 @@ $(document).on('click', '#change_status_order', function () {
     $('#change_sts_order_modal').modal('show');
 });
 
-$(document).on('click', '#save_sts_order', function (e) {
-e.preventDefault();
-let id = $(this).attr('data-id');
-let sts = $('#new_sts_order').val();
-    console.log(id);
-    console.log(sts);
 
-if(sts=>1 && sts<=4){
-    let formData = new FormData();
-    formData.append('id', id);
-    formData.append('sts', sts);
-    req('/admin/order-change-status', "POST", (data)=>{
-        //console.log(data);
-        $('.order-status-'+id).html(orderStatuses[data]);
-        $('#change_sts_order_modal').modal('hide');
-
-    }, formData);
-}
-})
 
 
 

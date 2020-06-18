@@ -79,3 +79,5 @@ D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\
 D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\Customer\checkout_order.g.cshtml.cs
 D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\Customer\I_orders.g.cshtml.cs
 D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\Customer\order_items.g.cshtml.cs
+D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\Admin\index_orders.g.cshtml.cs
+D:\projects\InternetMagazin\InternetMagazin\obj\Debug\netcoreapp2.2\Razor\Views\Admin\order_details.g.cshtml.cs
