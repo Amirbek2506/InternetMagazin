@@ -117,7 +117,18 @@
         }, formData);
     });
 
+
     
+    $(document).on('click', '#delete_Order', function (e) {
+        e.preventDefault();
+        let id = $(this).attr('data-id');
+        ajaxReq('/Admin/Delete_order/' + id, 'GET', (data) => {
+            $('#order_' + id).remove();
+        });
+    });
+
+
+
 
     $(document).on('click', '#index_orders', function (e) {
         e.preventDefault();
@@ -307,6 +318,8 @@
             $('.content-body').html(data);
         });
     });
+
+
 
 
     $(document).on('click', '#show_products_customer', function () {

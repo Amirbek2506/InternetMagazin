@@ -14,6 +14,7 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using System.Data.SqlClient;
 
 namespace InternetMagazin.Controllers
 {
@@ -38,27 +39,35 @@ namespace InternetMagazin.Controllers
 
         public async Task<string> Registr_user(UserViewModel user, IFormFile image)
         {
-            List<UserViewModel> Users = await _context.Users.Where(p => p.Phone == user.Phone || p.Password == user.Password).ToListAsync<UserViewModel>();
-            if (Users.Count() == 0)
+            try
             {
-                if (user.FirstName != null && user.LastName != null && user.Phone.Length == 9 && int.TryParse(user.Phone, out int B) && user.Password != null && user.Addres != null && user.City != null)
+                List<UserViewModel> Users = await _context.Users.Where(p => p.Phone == user.Phone || p.Password == user.Password).ToListAsync<UserViewModel>();
+                if (Users.Count() == 0)
                 {
-                    user.RollesId = 2;
-                    user.Image = (image != null) ? image.FileName : null;
-                    _context.Add(user);
-                    if (await _context.SaveChangesAsync() > 0)
+                    if (user.FirstName != null && user.LastName != null && user.Phone.Length == 9 && int.TryParse(user.Phone, out int B) && user.Password != null && user.Addres != null && user.City != null)
                     {
-                        string folder = this._appEnvironment.WebRootPath + "\\uploads\\users\\" + user.Id;
-                        if (!Directory.Exists(folder))
-                            Directory.CreateDirectory(folder);
-                        if (image != null)
-                            using (FileStream output = System.IO.File.Create(folder + "\\" + user.Image))
-                                await image.CopyToAsync(output);
-                         return "Регистрация успешно завершен!";
+                        user.RollesId = 2;
+                        user.Image = (image != null) ? image.FileName : null;
+                        _context.Add(user);
+                        if (await _context.SaveChangesAsync() > 0)
+                        {
+                            string folder = this._appEnvironment.WebRootPath + "\\uploads\\users\\" + user.Id;
+                            if (!Directory.Exists(folder))
+                                Directory.CreateDirectory(folder);
+                            if (image != null)
+                                using (FileStream output = System.IO.File.Create(folder + "\\" + user.Image))
+                                    await image.CopyToAsync(output);
+                            return "Регистрация успешно завершен!";
+                        }
                     }
+                    return "Не коректние данны";
                 }
+                return "Клиент по такой логин или пароль уже существует!";
             }
-            return "Клиент по такой логин или пароль уже существует!";
+            catch(SqlException ex)
+            {
+                return "error: " + ex.Message;
+            }
         }
 
 
@@ -138,56 +147,5 @@ namespace InternetMagazin.Controllers
             claims.Add(_claim);
             return claims.AsEnumerable<Claim>();
         }
-        /*
-        public UserViewModel GetUserModel()
-        {
-            var objLoggedInUser = new UserViewModel();
-            if (User.Identity.IsAuthenticated)
-            {
-                var claimsIndentity = HttpContext.User.Identity as ClaimsIdentity;
-                var userClaims = claimsIndentity.Claims;
-
-                if (HttpContext.User.Identity.IsAuthenticated)
-                {
-                    foreach (var claim in userClaims)
-                    {
-                        var cType = claim.Type;
-                        var cValue = claim.Value;
-                        switch (cType)
-                        {
-                            case "LastName":
-                                objLoggedInUser.LastName = cValue;
-                                break;
-                            case "FirstName":
-                                objLoggedInUser.FirstName = cValue;
-                                break;
-                            case "MiddleName":
-                                objLoggedInUser.MiddleName = cValue;
-                                break;
-                            case "Phone":
-                                objLoggedInUser.Phone = cValue;
-                                break;
-                            case "Addres":
-                                objLoggedInUser.Addres = cValue;
-                                break;
-                            case "City":
-                                objLoggedInUser.City = cValue;
-                                break;
-                            case "Email":
-                                objLoggedInUser.Email = cValue;
-                                break;
-                            case "Image":
-                                objLoggedInUser.Image = cValue;
-                                break;
-                            case "Rolle":
-                                objLoggedInUser.RollesId = Convert.ToInt32(cValue);
-                                break;
-                        }
-                    }
-
-                }
-            }
-            return objLoggedInUser;
-        }*/
     }
 }

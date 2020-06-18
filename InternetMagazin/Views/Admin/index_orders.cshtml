@@ -40,7 +40,7 @@
                     {
                         foreach (var item in orders)
                         {
-                            <tr>
+                            <tr id="order_@item.Id">
                                 <td>#@item.Order_Number</td>
                                 <td>@item.Order_Date.Year - @item.Order_Date.Month - @item.Order_Date.Day</td>
                                 <td>@users.Where(p=>p.Id==item.UserId).Single().FirstName</td>
@@ -74,7 +74,7 @@
                                         <span data-id="@item.Id" data-sts="@item.Order_Status" id="change_status_order" class="edit button ordr button-box button-xs button-info">
                                             <i class="zmdi zmdi-edit"></i>
                                         </span>
-                                        <span data-id="@item.Id" id="delete_order" class="delete button ordr button-box button-xs button-danger">
+                                        <span data-id="@item.Id" id="delete_Order" class="delete button ordr button-box button-xs button-danger">
                                             <i class="zmdi zmdi-delete"></i>
                                         </span>
                                     </div>

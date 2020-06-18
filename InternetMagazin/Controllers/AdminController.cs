@@ -120,39 +120,47 @@ namespace InternetMagazin.Controllers
         {
             try
             {
-               var res= await _context.Products.Where(p => p.Id == id).FirstOrDefaultAsync<ProductViewModel>();
+               var res= await _context.Products.Where(p => p.Id == id).SingleAsync<ProductViewModel>();
                res.Product_Galeries = await _context.Product_Galeries.Where(p => p.ProductsId == res.Id).ToListAsync();
                return View("Edit_product",res);
             }
              catch (SqlException ex)
             {
-                return View(ex.Message);
+                return View("Error", ex.Message);
             }
         }
 
         [HttpPost]
         public async Task<IActionResult> Save_edit_product(ProductViewModel product)
         {
-            if (product.Title != null && product.Quontity != 0 && product.Price != 0 && product.Articul != null)
+            try
             {
-                ProductViewModel Product =await _context.Products.Where(p => p.Id == product.Id).SingleAsync();
-                Product.Title = product.Title;
-                Product.Quontity = product.Quontity;
-                Product.Price = product.Price;
-                Product.Price_Discount = product.Price_Discount;
-                Product.Is_sale = product.Is_sale;
-                Product.Is_new = product.Is_new;
-                Product.Articul = product.Articul;
-                Product.Description = product.Description;
+                if (product.Title != null && product.Quontity != 0 && product.Price != 0 && product.Articul != null)
+                {
+                    ProductViewModel Product = await _context.Products.Where(p => p.Id == product.Id).SingleAsync();
+                    Product.Title = product.Title;
+                    Product.Quontity = product.Quontity;
+                    Product.Price = product.Price;
+                    Product.Price_Discount = product.Price_Discount;
+                    Product.Is_sale = product.Is_sale;
+                    Product.Is_new = product.Is_new;
+                    Product.Articul = product.Articul;
+                    Product.Description = product.Description;
 
-                if (await _context.SaveChangesAsync() > 0)
+                    if (await _context.SaveChangesAsync() > 0)
                     {
-                    Product.Product_Galeries = await _context.Product_Galeries.Where(p=>p.ProductsId==Product.Id).ToListAsync<Product_GaleryViewModel>();
-                    return View("Save_edit_product", Product);
+                        Product.Product_Galeries = await _context.Product_Galeries.Where(p => p.ProductsId == Product.Id).ToListAsync<Product_GaleryViewModel>();
+                        return View("Save_edit_product", Product);
                     }
+                }
+                return null;
             }
-            return null;
+            catch (SqlException ex)
+            {
+                return View("Error", ex.Message);
+            }
         }
+
 
 
 
@@ -307,33 +315,37 @@ namespace InternetMagazin.Controllers
         {
             try
             {
-            _context.Users.Remove(await _context.Users.Where(p => p.Id == id).SingleAsync());
-             List<ReviewViewModel> reviews=await _context.Reviews.Where(p => p.UserId == id).ToListAsync();
-            if(reviews.Count()>0)
-            {
-                _context.Reviews.RemoveRange(reviews);
-            }
-            List<CartViewModel> carts = await _context.Carts.Where(p => p.UserId == id).ToListAsync();
-            if(carts.Count()>0)
-            {
-                _context.Carts.RemoveRange(carts);
-            }
-            List<OrderViewModel> orders = await _context.Orders.Where(p => p.UserId == id).ToListAsync();
-            if(orders.Count()>0)
-            {
-                _context.Orders.RemoveRange(orders);
-            }
-            if (await _context.SaveChangesAsync() > 0)
-            {
-                string addresfolderimage = $"{this._appEnvironment.WebRootPath }\\uploads\\users\\{id}";
-                if (Directory.Exists(addresfolderimage))
-                    Directory.Delete(addresfolderimage, true);
-            }
+                _context.Users.Remove(await _context.Users.Where(p => p.Id == id).SingleAsync());
+                List<WishlistViewModel> wishlist = await _context.Wishlists.Where(p => p.UserId == id).ToListAsync();
+                if (wishlist.Count() > 0)
+                {
+                    _context.Wishlists.RemoveRange(wishlist);
+                }
+                List<CartViewModel> carts = await _context.Carts.Where(p => p.UserId == id).ToListAsync();
+                if (carts.Count() > 0)
+                {
+                    _context.Carts.RemoveRange(carts);
+                }
+                List<OrderViewModel> orders = await _context.Orders.Where(p => p.UserId == id).ToListAsync();
+                if (orders.Count() > 0)
+                {
+                    foreach (var item in orders)
+                    {
+                        _context.Orders.Remove(item);
+                        _context.Order_Items.RemoveRange(await _context.Order_Items.Where(p => p.OrderId == item.Id).ToListAsync());
+                    }
+                }
+                if (await _context.SaveChangesAsync() > 0)
+                {
+                    string addresfolderimage = $"{this._appEnvironment.WebRootPath }\\uploads\\users\\{id}";
+                    if (Directory.Exists(addresfolderimage))
+                        Directory.Delete(addresfolderimage, true);
+                }
                 return "Удаления успешно завершен!";
             }
-            catch(SqlException ex)
+            catch (SqlException ex)
             {
-               return ex.Message;
+                return ex.Message;
             }
         }
 
@@ -399,6 +411,15 @@ namespace InternetMagazin.Controllers
             await _context.Order_Items.Where(p => p.OrderId == order.Id).ForEachAsync(p => p.Updated_at = DateTime.Now.Date);
             await _context.SaveChangesAsync();
             return sts;
+        }
+
+
+        public async Task<bool> Delete_order(int id)
+        {
+           _context.Orders.Remove(await _context.Orders.Where(p => p.Id == id).SingleAsync());
+            _context.Order_Items.RemoveRange(await _context.Order_Items.Where(p => p.OrderId == id).ToListAsync());
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

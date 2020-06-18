@@ -35,7 +35,7 @@ namespace InternetMagazin.Controllers
                 ViewBag.GetUserModel = user;
                 return View("Index", Products);
             }
-            return BadRequest();
+            return NotFound();
         }
 
 
