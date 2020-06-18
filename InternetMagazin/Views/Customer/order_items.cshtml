@@ -1,0 +1,76 @@
+﻿@{
+    Layout = null;
+    List<Order_ItemViewModel> order_items = Model;
+    List<ProductViewModel> products=  ViewBag.GetProducts;
+    List<Product_GaleryViewModel> galeries = ViewBag.GetImagesProducts;
+    UserViewModel user = ViewBag.GetUser;
+}
+    <!--Default Data Table Start-->
+                <h1 class="font-weight-medium font-size-7 ml-lg-1 mb-lg-8 pb-xl-1">
+                    <span data-id="@user.Id" id="I_orders" class="cursor-pointer"><i class="ti-arrow-left"></i> Назад</span>
+                </h1>
+                <table class="table">
+                    <thead>
+                        <tr class="border">
+                            <th scope="col"
+                                class="py-3 border-bottom-0 font-weight-medium pl-3 pl-lg-5 text-center">
+                                #
+                            </th>
+                            <th scope="col" class="py-3 border-bottom-0 font-weight-medium text-center">
+                                Продукт
+                            </th>
+                            <th scope="col" class="py-3 border-bottom-0 font-weight-medium text-center">
+                                Количество
+                            </th>
+                            <th scope="col" class="py-3 border-bottom-0 font-weight-medium text-center">
+                                Цена за 1
+                            </th>
+                            <th scope="col" class="py-3 border-bottom-0 font-weight-medium text-center">
+                                Итого
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (order_items.Count() > 0)
+                        {
+                            foreach (var item in order_items)
+                            {
+                                 ProductViewModel product = products.Where(p => p.Id == item.ProductId).Single();
+                                
+                                <tr class="border">
+                                    <th class="pl-3 pl-md-5 font-weight-normal align-middle py-6 text-center">
+                                        <div class="d-flex align-items-center">
+                                            <a data-id="@item.Id" class="d-block p-img-thumb">
+                                                @if (galeries.Where(p => p.ProductsId == item.ProductId).ToList().Count() > 0)
+                                                {
+                                                    <img src="/uploads/products/@item.ProductId/@galeries.Where(p=>p.ProductsId==item.ProductId).First().Image" class="img-fluid" alt="image-description">
+                                                }
+                                                else
+                                                {
+                                                    <img src="~/uploads/products/default.jpg" class="img-fluid" alt="image-description">
+                                                }
+                                            </a>
+                                        </div>
+                                    </th>
+                                    <th class="pl-3 pl-md-5 font-weight-normal align-middle py-6">
+                                        <div class="d-flex align-items-center">
+                                            <div class="ml-xl-4">
+                                                <div class="font-weight-normal">
+                                                    <a href="" class="text-dark">@product.Title</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </th>
+
+                                    @{ decimal Price = product.Is_sale == 1 ? product.Price_Discount : product.Price;}
+                                    <td class="align-middle py-5 text-center">@item.Quantity</td>
+                                    <td class="align-middle py-5 text-center" width="15%">@Price TJS</td>
+                                    <td class="align-middle py-5 text-center" width="15%">
+                                        <span class="text-primary">@item.Price</span>  TJS
+                                    </td>
+                                </tr>
+                            }
+                        }
+
+                    </tbody>
+                    </table>

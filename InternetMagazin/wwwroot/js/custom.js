@@ -99,6 +99,61 @@
 
     //customer 
 
+
+    $(document).on('click', '#make_order', function (e) {
+        e.preventDefault();
+        let formData = new FormData();
+        formData.append('firstname', $('#billing_first_name').val());
+        formData.append('lastname', $('#billing_last_name').val());
+        formData.append('address', $('#billing_address').val());
+        formData.append('city', $('#billing_city').val());
+        formData.append('phone', $('#billing_phone').val());
+        formData.append('email', $('#billing_email').val());
+        formData.append('delivery_type', $('#shipping_cost').attr('data-id'));
+        formData.append('payment_type', $('#payment_method').val());
+
+        ajaxReq('/Customer/Make_order', 'POST', (data) => {
+            $('.content-body').html(data);
+        }, formData);
+    });
+
+
+    
+
+    $(document).on('click', '#I_orders', function (e) {
+        e.preventDefault();
+        let id = $(this).attr('data-id');
+        ajaxReq('/Customer/Get_I_orders/'+id, 'GET', (data) => {
+            $('.content-body').html(data);
+        });
+    });
+
+
+
+    $(document).on('click', '#view_order_items', function (e) {
+        e.preventDefault();
+        let id = $(this).attr('data-id');
+        ajaxReq('/Customer/Get_order_items/' + id, 'GET', (data) => {
+            $('.content-body').html(data);
+        });
+    });
+
+    
+
+
+
+
+
+
+    $(document).on('click', '#checkout_order_btn', function (e) {
+        e.preventDefault();
+        let id = $(this).attr('data-id');
+        ajaxReq('/Customer/Checkout_order', 'GET', (data) => {
+            $('.content-body').html(data);
+        });
+    });
+
+
     $(document).on('click', '#_plus', function (e) {
         e.preventDefault();
         let id = $(this).attr('data-id');
@@ -269,7 +324,7 @@
         e.preventDefault();
         let id = $(this).attr('data-id');
         ajaxReq('/Customer/Delete_item_cart/' + id, 'GET', (data) => {
-            $('#table_item_cus_' + id).remove();
+            $('#table_item_cart_' + id).remove();
         });
     });
 

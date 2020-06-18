@@ -18,7 +18,7 @@ namespace InternetMagazin.Models
         public DateTime Created_at { get; set; }
         public DateTime Updated_at { get; set; }
 
-        public UserViewModel Users { get; set; }
+        public UserViewModel User { get; set; }
 
         public virtual ICollection<Order_ItemViewModel> Order_Items { get; set; }
 

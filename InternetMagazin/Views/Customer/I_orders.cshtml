@@ -1,0 +1,87 @@
+﻿@{
+    Layout = null;
+   List<OrderViewModel> orders = Model;
+}
+
+<!-- Page Headings Start -->
+    <div class="row">
+        <div class="row justify-content-between align-items-center mb-10">
+            <!-- Page Heading Start -->
+            <div class="col-12 col-lg-auto mb-20">
+                <div class="page-heading">
+                    <h3 class="title">Мои заказы</h3>
+                </div>
+            </div>
+        </div><!-- Page Heading End -->
+        <div class="col-12 mb-30">
+            <div class="box">
+                <div class="box-body" style="padding: 0;">
+                    <table class="table">
+                        <thead>
+                            <tr class="border">
+                                <th scope="col"
+                                    class="py-3 border-bottom-0 font-weight-medium pl-3 pl-lg-5">
+                                    Заказ №
+                                </th>
+                                <th scope="col" class="py-3 border-bottom-0 font-weight-medium">
+                                    Дата
+                                </th>
+                                <th scope="col" class="py-3 border-bottom-0 font-weight-medium">
+                                    Статус
+                                </th>
+                                <th scope="col" class="py-3 border-bottom-0 font-weight-medium">
+                                    Итог
+                                </th>
+                                <th scope="col" class="py-3 border-bottom-0 font-weight-medium">
+                                    Действие
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (orders.Count() > 0)
+                            {
+                                foreach (var item in orders)
+                                {
+                                    <tr class="border">
+                                        <th class="pl-3 pl-md-5 font-weight-normal align-middle py-6">
+                                            #@item.Order_Number
+                                        </th>
+                                        <td class="align-middle py-5">@item.Order_Date.Year - @item.Order_Date.Month - @item.Order_Date.Day</td>
+                                        <td class="align-middle py-5">
+                                            @if (item.Order_Status == 1)
+                                            {
+                                                <span class="badge badge-danger">Расматривается</span>
+                                            }
+                                            @if (item.Order_Status == 2)
+                                            {
+                                                <span class="badge badge-primary">Обработан</span>
+                                            }
+                                            @if (item.Order_Status == 3)
+                                            {
+                                                <span class="badge badge-warning">Отказан</span>
+                                            }
+                                            @if (item.Order_Status == 4)
+                                            {
+                                                <span class="badge badge-success">Доставлен</span>
+                                            }
+                                        </td>
+                                        <td class="align-middle py-5">
+                                            <span class="text-primary">@item.Order_Sum   TJS   </span>
+                                        </td>
+                                        <td class="align-middle py-5">
+                                            <div class="d-flex justify-content-center">
+                                                <button data-id="@item.Id" id="view_order_items"
+                                                        class="btn btn-dark rounded-0 btn-wide font-weight-medium">
+                                                    Подробно
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>

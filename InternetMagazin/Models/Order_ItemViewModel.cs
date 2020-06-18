@@ -15,8 +15,8 @@ namespace InternetMagazin.Models
         public DateTime Created_at { get; set; }
         public DateTime Updated_at { get; set; }
 
-        public ProductViewModel Products { get; set; }
-        public OrderViewModel Orders { get; set; }
+        public ProductViewModel Product { get; set; }
+        public OrderViewModel Order { get; set; }
 
     }
 }
