@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Hosting;
 using System.Net.Http.Headers;
 using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
+using System.Security.Claims;
 
 namespace InternetMagazin.Controllers
 {
@@ -70,12 +71,12 @@ namespace InternetMagazin.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> Index(UserViewModel user)
+        public async Task<IActionResult> Index()
         {
             if(User.Identity.IsAuthenticated)
             {
             ViewBag.GetCategories =await _context.Categories.ToListAsync<CategoryViewModel>();
-                return View("Index",user);
+                return View("Index",GetUserModel());
             }
             return NotFound();
         }
@@ -421,5 +422,62 @@ namespace InternetMagazin.Controllers
             await _context.SaveChangesAsync();
             return true;
         }
+
+
+        public UserViewModel GetUserModel()
+        {
+            var objLoggedInUser = new UserViewModel();
+            if (User.Identity.IsAuthenticated)
+            {
+                var claimsIndentity = HttpContext.User.Identity as ClaimsIdentity;
+                var userClaims = claimsIndentity.Claims;
+
+                if (HttpContext.User.Identity.IsAuthenticated)
+                {
+                    foreach (var claim in userClaims)
+                    {
+                        var cType = claim.Type;
+                        var cValue = claim.Value;
+                        switch (cType)
+                        {
+                            case "LastName":
+                                objLoggedInUser.LastName = cValue;
+                                break;
+                            case "FirstName":
+                                objLoggedInUser.FirstName = cValue;
+                                break;
+                            case "MiddleName":
+                                objLoggedInUser.MiddleName = cValue;
+                                break;
+                            case "Phone":
+                                objLoggedInUser.Phone = cValue;
+                                break;
+                            case "Addres":
+                                objLoggedInUser.Addres = cValue;
+                                break;
+                            case "City":
+                                objLoggedInUser.City = cValue;
+                                break;
+                            case "Email":
+                                objLoggedInUser.Email = cValue;
+                                break;
+                            case "Image":
+                                objLoggedInUser.Image = cValue;
+                                break;
+                            case "Rolle":
+                                objLoggedInUser.RollesId = Convert.ToInt32(cValue);
+                                break;
+                            case "Id":
+                                objLoggedInUser.Id = Convert.ToInt32(cValue);
+                                break;
+                        }
+                    }
+
+                }
+            }
+            return objLoggedInUser;
+        }
+
+
     }
 }

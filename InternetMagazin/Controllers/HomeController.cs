@@ -106,9 +106,10 @@ namespace InternetMagazin.Controllers
             {
                 HttpContext.Session.SetString("JWToken", token);
             }
+            int id = Us.Id;
             if (Us.RollesId == 1)
-                return RedirectToAction("Index","Admin",Us);
-            return RedirectToAction("Index","Customer",Us);
+                return RedirectToAction("Index","Admin");
+            return RedirectToAction("Index","Customer");
     }
 
         public IActionResult Logoff()

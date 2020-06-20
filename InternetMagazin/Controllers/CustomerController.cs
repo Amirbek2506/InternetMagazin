@@ -25,14 +25,14 @@ namespace InternetMagazin.Controllers
             _appEnvironment = appEnvironment;
         }
 
-        public async Task<IActionResult> Index(UserViewModel user)
+        public async Task<IActionResult> Index()
         {
             if (User.Identity.IsAuthenticated)
             {
                 List<ProductViewModel> Products = await _context.Products.ToListAsync<ProductViewModel>();
                 ViewBag.GetImagesProducts = await _context.Product_Galeries.ToListAsync<Product_GaleryViewModel>();
                 ViewBag.GetCategories = await _context.Categories.ToListAsync<CategoryViewModel>();
-                ViewBag.GetUserModel = user;
+                ViewBag.GetUserModel = GetUserModel();
                 return View("Index", Products);
             }
             return NotFound();
